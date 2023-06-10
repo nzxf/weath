@@ -1,0 +1,23 @@
+{
+  "name": "weather",
+  "version": "1.0.0",
+  "description": "Weather App : Odin Project Javascript Path",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gh-deploy": "git push origin :gh-pages && git subtree push --prefix dist origin gh-pages",
+    "gh-deploy-init": "git push origin && git subtree push --prefix dist origin gh-pages",
+    "build": "webpack",
+    "watch": "webpack watch"
+  },
+  "author": "nzxf",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^6.8.1",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.86.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
