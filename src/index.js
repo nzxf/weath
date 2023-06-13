@@ -3,7 +3,7 @@ import { worlds } from './worlds';
 // import { colors } from './colors';
 import { myFunctions } from './functions';
 
-const elementMaker = myFunctions.elementMaker;
+const elMaker = myFunctions.elementMaker;
 const randomInbetween = myFunctions.randomInbetween;
 const randomFromArray = myFunctions.randomFromArray;
 
@@ -56,89 +56,81 @@ let tempIcon = `url(https://cdn-icons-png.flaticon.com/512/6420/6420894.png)`;
 function fillSidebar(cityArray) {
   for (let i = 0; i < cityArray.length; i++) {
     // const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
-    const sideContainer = elementMaker(
-      'div',
-      centerSidebar,
-      '',
-      'side-container'
-    );
-    elementMaker(
-      'div',
-      sideContainer,
-      // `${data.current.temp_c}°`,
-      '31°',
-      'side-temperature'
-    );
-    const sideIcon = elementMaker('div', sideContainer, '', 'side-icon');
+    const sideContainer = elMaker('div', centerSidebar, 'side-container');
+    // TEMPERATURE
+    const sideTemp = elMaker('div', sideContainer, 'side-temp');
+    sideTemp.textContent = '31°'; // `${data.current.temp_c}°`,
+    // ICON
+    const sideIcon = elMaker('div', sideContainer, 'side-icon');
     sideIcon.style.backgroundImage = tempIcon;
-    elementMaker(
-      'span',
-      sideContainer,
-      // `${data.location.name}, ${data.location.country}`,
-      'Madrid, Spain',
-      'side-city'
-    );
-    elementMaker(
-      'div',
-      sideContainer,
-      // data.current.condition.text,
-      'Partly Cloudy',
-      'side-weather'
-    );
+    // CITY & COUNTRY
+    const sideCity = elMaker('span', sideContainer, 'side-city');
+    sideCity.textContent = 'Madrid, Spain'; // `${data.location.name}, ${data.location.country}`,
+    // WEATHER
+    const sideWeather = elMaker('div', sideContainer, 'side-weather');
+    sideWeather.textContent = 'Partly Cloudy'; // data.current.condition.text,
   }
 }
 
 fillSidebar(randomFromArray(worlds, 5));
 
-const endMain = document.querySelector('.end-main');
 function fillMainEnd(howMany) {
+  const endMain = document.querySelector('.end-main');
   for (let i = 0; i < howMany; i++) {
-    const dayContainer = elementMaker('div', endMain, '', 'day-container');
-    elementMaker('div', dayContainer, `${howMany + i}`);
-    const endIcon = elementMaker('div', dayContainer, '', 'end-icon');
+    const dayContainer = elMaker('div', endMain, 'day-container');
+    // DATE & DAY
+    const day = elMaker('div', dayContainer, `day-${i}`, 'days');
+    day.textContent = howMany + i + '(Tue)';
+    // ICON
+    const endIcon = elMaker('div', dayContainer, 'end-icon');
     endIcon.style.backgroundImage = tempIcon;
-    elementMaker('div', dayContainer, '24°', 'end-temp');
+    // TEMPERATURE
+    const endTemp = elMaker('div', dayContainer, 'end-temp');
+    endTemp.textContent = '24°';
   }
 }
 fillMainEnd(7);
 
-const centerMain = document.querySelector('.center-main');
-function fillMainCenter(cityName) {
-  const mainContainer = elementMaker('div', centerMain, '', 'main-container');
+function fillMainCenter(dataMain) {
+  const centerMain = document.querySelector('.center-main');
+  const mainContainer = elMaker('div', centerMain, 'main-container');
   // DATE & TIME
-  const dateContainer = elementMaker(
-    'div',
-    mainContainer,
-    '',
-    'date-container'
-  );
-  elementMaker('div', dateContainer, '2/3/2023', 'main-date');
-  elementMaker('div', dateContainer, '12:45', 'main-time');
-  // GEO
-  const geoContainer = elementMaker('div', mainContainer, '', 'geo-container');
-  const geoIcon = elementMaker('span', geoContainer, '', 'geo-icon');
-  elementMaker('span', geoContainer, 'New York, United States', 'main-city');
-  const mainIcon = elementMaker('div', mainContainer, '', 'main-icon');
-  elementMaker('div', mainContainer, 'Sunny', 'main-weather');
+  const dateContainer = elMaker('div', mainContainer, 'date-container');
+  const mainDate = elMaker('div', dateContainer, 'main-date');
+  mainDate.textContent = '2/3/2023';
+  // GEO ICON & CITY
+  const geoContainer = elMaker('div', mainContainer, 'geo-container');
+  elMaker('span', geoContainer, 'geo-icon');
+  const mainCity = elMaker('span', geoContainer, 'main-city');
+  mainCity.textContent = 'New York, United States';
+  // MAIN ICON
+  const mainIcon = elMaker('div', mainContainer, 'main-icon');
+  const mainWeather = elMaker('div', mainContainer, 'main-weather');
+  mainWeather.textContent = 'Sunny';
   // TEMPERATURE
-  const temp = elementMaker('div', mainContainer, '', 'main-temp');
-  const tempIcon = elementMaker('div', temp, '', 'temp-icon', 'sub-icon');
-  elementMaker('div', temp, '23°C', 'sub-text');
+  const temp = elMaker('div', mainContainer, 'main-temp');
+  elMaker('div', temp, 'temp-icon', 'sub-icon');
+  const tempText = elMaker('div', temp, 'sub-text');
+  tempText.textContent = '23°C';
   // HUMIDITY
-  const humid = elementMaker('div', mainContainer, '', 'main-humidity');
-  const humidIcon = elementMaker('div', humid, '', 'humid-icon', 'sub-icon');
-  elementMaker('div', humid, '80%', 'sub-text');
+  const humid = elMaker('div', mainContainer, 'main-humidity');
+  elMaker('div', humid, 'humid-icon', 'sub-icon');
+  const humidText = elMaker('div', humid, 'sub-text');
+  humidText.textContent = '80%';
   // WIND
-  const wind = elementMaker('div', mainContainer, '', 'main-wind');
-  const windIcon = elementMaker('div', wind, '', 'wind-icon', 'sub-icon');
-  elementMaker('div', wind, '22 kph', 'sub-text');
+  const wind = elMaker('div', mainContainer, 'main-wind');
+  elMaker('div', wind, 'wind-icon', 'sub-icon');
+  const windText = elMaker('div', wind, 'sub-text');
+  windText.textContent = '22 kph';
   // HUMIDITY
-  const uv = elementMaker('div', mainContainer, '', 'main-uv');
-  const uvIcon = elementMaker('div', uv, '', 'uv-icon', 'sub-icon');
-  elementMaker('div', uv, '5.0', 'sub-text');
-  // WIND
-  const cloud = elementMaker('div', mainContainer, '', 'main-cloud');
-  const cloudIcon = elementMaker('div', cloud, '', 'cloud-icon', 'sub-icon');
-  elementMaker('div', cloud, 'clear', 'sub-text');
+  const uv = elMaker('div', mainContainer, 'main-uv');
+  elMaker('div', uv, 'uv-icon', 'sub-icon');
+  const uvText = elMaker('div', uv, 'sub-text');
+  uvText.textContent = '5.0';
+  // CLOUD
+  const cloud = elMaker('div', mainContainer, 'main-cloud');
+  elMaker('div', cloud, 'cloud-icon', 'sub-icon');
+  const cloudText = elMaker('div', cloud, 'sub-text');
+  cloudText.textContent = 'Clear';
 }
 fillMainCenter();

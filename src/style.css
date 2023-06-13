@@ -227,7 +227,7 @@ body {
   /* color: #80D8FF; */
 }
 
-.side-temperature {
+.side-temp {
   font-family: 'bold';
   font-size: 1.5rem;
   height: 100%;
@@ -255,7 +255,7 @@ body {
     justify-content: center;
     align-items: center;
   }
-  .side-temperature {
+  .side-temp {
     display: none;
   }
   .side-weather {

@@ -1,6 +1,6 @@
 const myFunctions = (() => {
   // ELEMENT MAKER
-  const elementMaker = (type, parent, text = '', ...classNames) => {
+  const elementMaker = (type, parent, ...classNames) => {
     if (!type || typeof type !== 'string') {
       throw new Error(`Invalid value for 'type' parameter`);
     }
@@ -10,9 +10,6 @@ const myFunctions = (() => {
     const element = document.createElement(type);
     if (classNames.length > 0) {
       classNames.forEach((className) => element.classList.add(className));
-    }
-    if (typeof text === 'string' && text !== '') {
-      element.textContent = text;
     }
     parent.appendChild(element);
     return element;
