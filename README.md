@@ -1,5 +1,5 @@
-# WEATHERIA
-Weather App : Odin Project Javascript Path
+# WEATH
+A weather app : Odin Project Javascript Path
 
 ## Fonts
 This project uses Poppins by Jonny Pinhorn and Tim Donaldson. Poppins is under the SIL Open Font License 1.1
