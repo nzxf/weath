@@ -76,45 +76,82 @@ const content = document.querySelector('#content');
 const main = document.querySelector('.main');
 const cities = document.querySelectorAll('.city');
 
-// cities.forEach(async (city, index) => {
-//   let cityName = threeCities[index];
-//   const data = await tellWeather(API_KEY_WEATHER, cityName);
-//   elementMaker('div', city, data.location.name);
-//   elementMaker('div', city, data.location.country);
-//   elementMaker('div', city, data.current.temp_c);
-//   elementMaker('div', city, data.current.condition.text);
-//   // elementMaker('div', city, data.current.wind_kph)
-//   // elementMaker('div', city, data.current.humidity)
-// });
-
 const centerSidebar = document.querySelector('.center-sidebar');
-const fillSidebar = async (cityArray) => {
+let colors = {
+  blue: ['#CFE4FF', '#4CB6FE'],
+  blue2: ['#BBDEFB', '#2196F3'],
+  orange: ['#FFD54F', '#FFB900'],
+  green: ['#C8E6C9', '#66BB6A'],
+  green2: ['#DCEDC8', '#689F38'],
+  red: ['#FCE4EC', '#EC407A'],
+  purple: ['#E1BEE7', '#9C27B0'],
+  yellow: ['#FFEB3B', '#FBC02D'],
+  black: ["#757575", "#212121"],
+};
+function fillSidebar(cityArray) {
   for (let i = 0; i < cityArray.length; i++) {
-    const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
-
+    // const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
     const sideContainer = elementMaker(
       'div',
       centerSidebar,
       '',
       'side-container'
     );
-    elementMaker('div', sideContainer, `${data.current.temp_c}°`, 'side-temperature');
+    sideContainer.style.backgroundImage = `linear-gradient(to bottom left, ${colors.black[0]}, ${colors.black[1]}`;
+    elementMaker(
+      'div',
+      sideContainer,
+      // `${data.current.temp_c}°`,
+      '31°',
+      'side-temperature'
+    );
     const sideIcon = elementMaker('div', sideContainer, '', 'side-icon');
     sideIcon.style.backgroundImage =
-      'url(https://cdn-icons-png.flaticon.com/512/6420/6420894.png)';
+      // `url(${data.current.condition.icon})`
+      `url(https://cdn-icons-png.flaticon.com/512/6420/6420894.png)`;
     elementMaker(
       'span',
       sideContainer,
-      `${data.location.name}, ${data.location.country}`,
+      // `${data.location.name}, ${data.location.country}`,
+      'Madrid, Spain',
       'side-city'
     );
     elementMaker(
       'div',
       sideContainer,
-      data.current.condition.text,
+      // data.current.condition.text,
+      'Partly Cloudy',
       'side-condition'
     );
   }
-};
+}
 
-fillSidebar(randomCities(worlds,4))
+fillSidebar(randomCities(worlds, 5));
+
+const endMain = document.querySelector('.end-main');
+function fillMainEnd(howMany) {
+  for (let i = 0; i < howMany; i++) {
+    const dayContainer = elementMaker('div', endMain, '', 'day-container');
+    dayContainer.style.backgroundImage = `linear-gradient(to bottom left, ${colors.black[0]}, ${colors.black[1]}`;
+    elementMaker('div', dayContainer, `${howMany + i}`);
+    const icon = elementMaker('div', dayContainer, '', 'end-icon');
+    icon.style.backgroundImage = `url(https://cdn-icons-png.flaticon.com/512/6420/6420894.png)`;
+    elementMaker('div', dayContainer, '24°', 'end-temp');
+  }
+}
+fillMainEnd(7);
+
+const centerMain = document.querySelector('.center-main');
+function fillMainCenter(cityName) {
+  const mainCity = elementMaker('div', centerMain, '', 'main-city');
+  mainCity.style.backgroundImage = `linear-gradient(to bottom left, ${colors.black[0]}, ${colors.black[1]}`;
+  // elementMaker('div', mainCity, '12:45', 'main-time')
+  // elementMaker('div', mainCity, '2/3/2023', 'main-date')
+  elementMaker('div', mainCity, 'San Francisco, United States')
+  elementMaker('div', mainCity, 'icon', 'main-icon')
+  elementMaker('div', mainCity, 'Sunny', 'main-weather')
+  elementMaker('div', mainCity, 'Temperature', 'main-temp')
+  elementMaker('div', mainCity, 'Humidity', 'main-humidity')
+  elementMaker('div', mainCity, 'wind', 'main-wind')
+}
+fillMainCenter()
