@@ -121,7 +121,7 @@ function fillSidebar(cityArray) {
       sideContainer,
       // data.current.condition.text,
       'Partly Cloudy',
-      'side-condition'
+      'side-weather'
     );
   }
 }
