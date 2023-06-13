@@ -143,15 +143,42 @@ fillMainEnd(7);
 
 const centerMain = document.querySelector('.center-main');
 function fillMainCenter(cityName) {
-  const mainCity = elementMaker('div', centerMain, '', 'main-city');
-  mainCity.style.backgroundImage = `linear-gradient(to bottom left, ${colors.black[0]}, ${colors.black[1]}`;
-  // elementMaker('div', mainCity, '12:45', 'main-time')
-  // elementMaker('div', mainCity, '2/3/2023', 'main-date')
-  elementMaker('div', mainCity, 'San Francisco, United States')
-  elementMaker('div', mainCity, 'icon', 'main-icon')
-  elementMaker('div', mainCity, 'Sunny', 'main-weather')
-  elementMaker('div', mainCity, 'Temperature', 'main-temp')
-  elementMaker('div', mainCity, 'Humidity', 'main-humidity')
-  elementMaker('div', mainCity, 'wind', 'main-wind')
+  const mainContainer = elementMaker('div', centerMain, '', 'main-container');
+  mainContainer.style.backgroundImage = `linear-gradient(to bottom left, ${colors.black[0]}, ${colors.black[1]}`;
+  // elementMaker('div', mainContainer, '12:45', 'main-time')
+  // elementMaker('div', mainContainer, '2/3/2023', 'main-date')
+  // GEO
+  const topContainer =elementMaker('div', mainContainer, '', 'top-container')
+  const geoIcon = elementMaker('span', topContainer, '', 'geo-icon')
+  geoIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6421/6421001.png)'
+  elementMaker('span', topContainer, 'San Francisco, United States', 'main-city')
+  const mainIcon = elementMaker('div', mainContainer, '', 'main-icon')
+  mainIcon.style.backgroundImage = `url(https://cdn-icons-png.flaticon.com/512/6421/6421095.png)`
+  elementMaker('div', mainContainer, 'Sunny', 'main-weather')
+  // TEMPERATURE
+  const temp = elementMaker('div', mainContainer, '', 'main-temp')
+  const tempIcon = elementMaker('div', temp, '', 'sub-icon')
+  tempIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6421/6421026.png)'
+  elementMaker('div', temp, '23°', 'sub-text')
+  // HUMIDITY
+  const humid = elementMaker('div', mainContainer, '', 'main-humidity')
+  const humidIcon = elementMaker('div', humid, '', 'sub-icon')
+  humidIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6421/6421090.png)'
+  elementMaker('div', humid, '80%', 'sub-text')
+  // WIND
+  const wind = elementMaker('div', mainContainer, '', 'main-wind')
+  const windIcon = elementMaker('div', wind, '', 'sub-icon')
+  windIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6420/6420982.png)'
+  elementMaker('div', wind, '22 kph', 'sub-text')
+  // HUMIDITY
+  const uv = elementMaker('div', mainContainer, '', 'main-uv')
+  const uvIcon = elementMaker('div', uv, '', 'sub-icon')
+  uvIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6420/6420898.png)'
+  elementMaker('div', uv, '5.0', 'sub-text')
+  // WIND
+  const cloud = elementMaker('div', mainContainer, '', 'main-cloud')
+  const cloudIcon = elementMaker('div', cloud, '', 'sub-icon')
+  cloudIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6421/6421016.png)'
+  elementMaker('div', cloud, 'clear', 'sub-text')
 }
 fillMainCenter()
