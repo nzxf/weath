@@ -25,13 +25,15 @@ const myFunctions = (() => {
   const randomFromArray = (arr, howMany) => {
     let result = [];
     while (result.length < howMany) {
-      let random = randomizer(0, arr.length - 1);
+      let random = randomInbetween(0, arr.length - 1);
       if (!result.includes(random)) {
         result.push(arr[random]);
       }
     }
     return result;
   };
+
+  return { elementMaker, randomInbetween, randomFromArray };
 })();
 
 export { myFunctions };
