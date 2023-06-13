@@ -30,13 +30,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #D3D3D3;
 }
 
 #content {
   width: 100%;
-  height: 90%;
+  height: 100%;
   display: grid;
-  grid-template-columns: 1fr minmax(10px, 225px);
+  grid-template-columns: 1fr minmax(50px, 225px);
   gap: 10px;
   padding: 10px;
 }
@@ -64,6 +65,7 @@ body {
 
   display: grid;
   grid-template-rows: auto 1fr auto auto;
+  row-gap: 10px;
   grid-template-columns: repeat(5, 1fr);
   column-gap: 5px;
 }
@@ -74,14 +76,16 @@ body {
   gap: 5px;
 }
 .geo-icon {
-  height: 100%;
+  height: 15px;
   width: 15px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+  transform: translateY(7.5px);
 }
 
 .main-city {
+  font-family: 'med';
   padding: 5px 0;
 }
 
@@ -98,7 +102,6 @@ body {
   text-align: center;
   font-family: 'bold';
   font-size: 2rem;
-  margin-bottom: 10px;
 }
 
 .main-temp {
@@ -189,12 +192,17 @@ body {
   color: white;
 }
 
+.side-city {
+  font-family: 'med';
+  color: #80D8FF;
+}
+
 .side-temperature {
   font-family: 'bold';
-  font-size: 2rem;
-  width: 100%;
+  font-size: 1.5rem;
   height: 100%;
-  padding-top: 12.5px;
+  padding-top: 5px;
+  transform: scale(1.75) translate(5px, 9px);
 }
 
 .side-icon {
@@ -203,24 +211,31 @@ body {
   background-size: contain;
   width: 100%;
   height: 100%;
+  transform: translateY(7.5px);
 }
 
 @media only screen and (max-width: 500px) {
+  #content {
+    grid-template-columns: 1fr 80px;
+  }
+
   .side-container {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
   }
   .side-temperature {
-    font-size: 1.5rem;
-  }
-  .side-city {
-    grid-column: 1/3;
+    display: none;
   }
   .side-weather {
     display: none;
   }
+  .side-city {
+    font-size: .9rem;
+  }
   .side-icon {
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
   }
 }

@@ -159,7 +159,7 @@ function fillMainCenter(cityName) {
   const temp = elementMaker('div', mainContainer, '', 'main-temp')
   const tempIcon = elementMaker('div', temp, '', 'sub-icon')
   tempIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6421/6421026.png)'
-  elementMaker('div', temp, '23°', 'sub-text')
+  elementMaker('div', temp, '23°C', 'sub-text')
   // HUMIDITY
   const humid = elementMaker('div', mainContainer, '', 'main-humidity')
   const humidIcon = elementMaker('div', humid, '', 'sub-icon')
