@@ -1,34 +1,13 @@
-import { worlds } from './worlds';
 import './style.css';
+import { worlds } from './worlds';
+import { colors } from './colors';
+import { myFunctions } from './functions';
 
-const elementMaker = (type, parent, text = '', ...classNames) => {
-  if (!type || typeof type !== 'string') {
-    throw new Error(`Invalid value for 'type' parameter`);
-  }
-  if (!(parent instanceof Element)) {
-    throw new Error(`'parent' parameter must be valid DOM element`);
-  }
-  const element = document.createElement(type);
-  if (classNames.length > 0) {
-    classNames.forEach((className) => element.classList.add(className));
-  }
-  if (typeof text === 'string' && text !== '') {
-    element.textContent = text;
-  }
-  parent.appendChild(element);
-  return element;
-};
-const randomizer = (min, max) => {
-  return Math.floor(Math.random() * (max + 1 - min) + min);
-};
-const randomCities = (arr, howMany) => {
-  let result = [];
-  for (let i = 0; i < howMany; i++) {
-    let random = randomizer(0, arr.length - 1);
-    result.push(arr[random]);
-  }
-  return result;
-};
+const elementMaker = myFunctions.elementMaker;
+const randomInbetween = myFunctions.randomInbetween;
+const randomFromArray = myFunctions.randomFromArray;
+
+console.log(randomInbetween(3, 6));
 
 const tellIpAddress = async () => {
   const res = await fetch('https://api.ipify.org?format=json');
@@ -77,17 +56,7 @@ const main = document.querySelector('.main');
 const cities = document.querySelectorAll('.city');
 
 const centerSidebar = document.querySelector('.center-sidebar');
-let colors = {
-  blue: ['#CFE4FF', '#4CB6FE'],
-  blue2: ['#BBDEFB', '#2196F3'],
-  orange: ['#FFD54F', '#FFB900'],
-  green: ['#C8E6C9', '#66BB6A'],
-  green2: ['#DCEDC8', '#689F38'],
-  red: ['#FCE4EC', '#EC407A'],
-  purple: ['#E1BEE7', '#9C27B0'],
-  yellow: ['#FFEB3B', '#FBC02D'],
-  black: ["#757575", "#212121"],
-};
+
 function fillSidebar(cityArray) {
   for (let i = 0; i < cityArray.length; i++) {
     // const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
@@ -126,7 +95,7 @@ function fillSidebar(cityArray) {
   }
 }
 
-fillSidebar(randomCities(worlds, 5));
+fillSidebar(randomFromArray(worlds, 5));
 
 const endMain = document.querySelector('.end-main');
 function fillMainEnd(howMany) {
@@ -148,37 +117,48 @@ function fillMainCenter(cityName) {
   // elementMaker('div', mainContainer, '12:45', 'main-time')
   // elementMaker('div', mainContainer, '2/3/2023', 'main-date')
   // GEO
-  const topContainer =elementMaker('div', mainContainer, '', 'top-container')
-  const geoIcon = elementMaker('span', topContainer, '', 'geo-icon')
-  geoIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6421/6421001.png)'
-  elementMaker('span', topContainer, 'San Francisco, United States', 'main-city')
-  const mainIcon = elementMaker('div', mainContainer, '', 'main-icon')
-  mainIcon.style.backgroundImage = `url(https://cdn-icons-png.flaticon.com/512/6421/6421095.png)`
-  elementMaker('div', mainContainer, 'Sunny', 'main-weather')
+  const topContainer = elementMaker('div', mainContainer, '', 'top-container');
+  const geoIcon = elementMaker('span', topContainer, '', 'geo-icon');
+  geoIcon.style.backgroundImage =
+    'url(https://cdn-icons-png.flaticon.com/512/6421/6421001.png)';
+  elementMaker(
+    'span',
+    topContainer,
+    'San Francisco, United States',
+    'main-city'
+  );
+  const mainIcon = elementMaker('div', mainContainer, '', 'main-icon');
+  mainIcon.style.backgroundImage = `url(https://cdn-icons-png.flaticon.com/512/6421/6421095.png)`;
+  elementMaker('div', mainContainer, 'Sunny', 'main-weather');
   // TEMPERATURE
-  const temp = elementMaker('div', mainContainer, '', 'main-temp')
-  const tempIcon = elementMaker('div', temp, '', 'sub-icon')
-  tempIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6421/6421026.png)'
-  elementMaker('div', temp, '23°C', 'sub-text')
+  const temp = elementMaker('div', mainContainer, '', 'main-temp');
+  const tempIcon = elementMaker('div', temp, '', 'sub-icon');
+  tempIcon.style.backgroundImage =
+    'url(https://cdn-icons-png.flaticon.com/512/6421/6421026.png)';
+  elementMaker('div', temp, '23°C', 'sub-text');
   // HUMIDITY
-  const humid = elementMaker('div', mainContainer, '', 'main-humidity')
-  const humidIcon = elementMaker('div', humid, '', 'sub-icon')
-  humidIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6421/6421090.png)'
-  elementMaker('div', humid, '80%', 'sub-text')
+  const humid = elementMaker('div', mainContainer, '', 'main-humidity');
+  const humidIcon = elementMaker('div', humid, '', 'sub-icon');
+  humidIcon.style.backgroundImage =
+    'url(https://cdn-icons-png.flaticon.com/512/6421/6421090.png)';
+  elementMaker('div', humid, '80%', 'sub-text');
   // WIND
-  const wind = elementMaker('div', mainContainer, '', 'main-wind')
-  const windIcon = elementMaker('div', wind, '', 'sub-icon')
-  windIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6420/6420982.png)'
-  elementMaker('div', wind, '22 kph', 'sub-text')
+  const wind = elementMaker('div', mainContainer, '', 'main-wind');
+  const windIcon = elementMaker('div', wind, '', 'sub-icon');
+  windIcon.style.backgroundImage =
+    'url(https://cdn-icons-png.flaticon.com/512/6420/6420982.png)';
+  elementMaker('div', wind, '22 kph', 'sub-text');
   // HUMIDITY
-  const uv = elementMaker('div', mainContainer, '', 'main-uv')
-  const uvIcon = elementMaker('div', uv, '', 'sub-icon')
-  uvIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6420/6420898.png)'
-  elementMaker('div', uv, '5.0', 'sub-text')
+  const uv = elementMaker('div', mainContainer, '', 'main-uv');
+  const uvIcon = elementMaker('div', uv, '', 'sub-icon');
+  uvIcon.style.backgroundImage =
+    'url(https://cdn-icons-png.flaticon.com/512/6420/6420898.png)';
+  elementMaker('div', uv, '5.0', 'sub-text');
   // WIND
-  const cloud = elementMaker('div', mainContainer, '', 'main-cloud')
-  const cloudIcon = elementMaker('div', cloud, '', 'sub-icon')
-  cloudIcon.style.backgroundImage = 'url(https://cdn-icons-png.flaticon.com/512/6421/6421016.png)'
-  elementMaker('div', cloud, 'clear', 'sub-text')
+  const cloud = elementMaker('div', mainContainer, '', 'main-cloud');
+  const cloudIcon = elementMaker('div', cloud, '', 'sub-icon');
+  cloudIcon.style.backgroundImage =
+    'url(https://cdn-icons-png.flaticon.com/512/6421/6421016.png)';
+  elementMaker('div', cloud, 'clear', 'sub-text');
 }
-fillMainCenter()
+fillMainCenter();

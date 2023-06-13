@@ -1,48 +1,13 @@
-const weatherColors = [
-  {
-    condition: 'Sunny',
-    colors: [
-      [255, 221, 87],
-      [252, 175, 62],
-      [105, 181, 222],
-    ],
-  },
+const colors = {
+  blue: ['#CFE4FF', '#4CB6FE'],
+  blue2: ['#BBDEFB', '#2196F3'],
+  orange: ['#FFD54F', '#FFB900'],
+  green: ['#C8E6C9', '#66BB6A'],
+  green2: ['#DCEDC8', '#689F38'],
+  red: ['#FCE4EC', '#EC407A'],
+  purple: ['#E1BEE7', '#9C27B0'],
+  yellow: ['#FFEB3B', '#FBC02D'],
+  black: ['#757575', '#212121'],
+};
 
-  {
-    condition: 'Cloudy',
-    colors: [
-      [128, 128, 128],
-      [192, 192, 192],
-      [255, 255, 255],
-    ],
-  },
-
-  {
-    condition: 'Rainy',
-    colors: [
-      [95, 158, 160],
-      [70, 130, 180],
-      [105, 105, 105],
-    ],
-  },
-
-  {
-    condition: 'Snowy/Cold',
-    colors: [
-      [245, 245, 220],
-      [0, 255, 255],
-      [230, 230, 250],
-    ],
-  },
-
-  {
-    condition: 'Stormy',
-    colors: [
-      [75, 0, 130],
-      [64, 224, 208],
-      [255, 69, 0],
-    ],
-  },
-];
-
-export { weatherColors };
+export { colors };
