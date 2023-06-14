@@ -7,6 +7,13 @@ const elMaker = myFunctions.elementMaker;
 const randomInbetween = myFunctions.randomInbetween;
 const randomFromArray = myFunctions.randomFromArray;
 
+const nowDate = () => {
+  let day = date.getDate();
+  let month = date.getMonth() - 1;
+  let year = date.getFullYear();
+  return `day/month/year`;
+};
+
 const tellIpAddress = async () => {
   const res = await fetch('https://api.ipify.org?format=json');
   const data = await res.json();
@@ -53,35 +60,75 @@ const centerSidebar = document.querySelector('.center-sidebar');
 
 let tempIcon = `url(https://cdn-icons-png.flaticon.com/512/6420/6420894.png)`;
 
-function fillMainCenter(dataMain) {
-  const mainContainer = document.querySelector('.main-container');
-  // DATE & TIME
-  const mainDate = document.querySelector('.main-date');
-  mainDate.textContent = '2/3/2023';
-  // GEO ICON & CITY
-  const mainCity = document.querySelector('.main-city');
-  mainCity.textContent = 'New York, United States';
-  // MAIN WEATHER
-  const mainWeather = document.querySelector('.main-weather');
-  mainWeather.textContent = 'Sunny';
-  // TEMPERATURE
-  const temp = document.querySelector('.temp');
-  temp.textContent = '23°C';
-  // HUMIDITY
-  const humid = document.querySelector('.humid');
-  humid.textContent = '80%';
-  // WIND
-  const wind = document.querySelector('.wind');
-  wind.textContent = '22 kph';
-  // UV
-  const uv = document.querySelector('.uv');
-  uv.textContent = '5.0 UV';
-  // CLOUD
-  const cloud = document.querySelector('.cloud');
-  cloud.textContent = 'Clear';
+async function fillMainCenter(cityName) {
+  if (!cityName) {
+    let cityData = await tellWeather(
+      API_KEY_WEATHER,
+      randomFromArray(worlds, 1)
+    );
+    console.log('no city input, searching randomly');
+    console.log(cityData);
+    // // DATE & TIME
+    const mainDate = document.querySelector('.main-date');
+    mainDate.textContent = cityData.location.localtime; //'2/3/2023';
+    // GEO ICON & CITY
+    const mainCity = document.querySelector('.main-city');
+    mainCity.textContent = `${cityData.location.name}, ${cityData.location.region}, ${cityData.location.country}`; //'New York, United States';
+    // // MAIN WEATHER
+    const mainWeather = document.querySelector('.main-weather');
+    mainWeather.textContent = cityData.current.condition.text; //'Sunny';
+    // // TEMPERATURE
+    const temp = document.querySelector('.temp');
+    temp.textContent = cityData.current.temp_c; // '23°C';
+    temp.textContent = cityData.current.temp_f; // '45°F';
+    // // HUMIDITY
+    const humid = document.querySelector('.humid');
+    humid.textContent = cityData.currenthumidity; // '80%';
+    // // WIND
+    // const wind = document.querySelector('.wind');
+    wind.textContent = cityData.currentwind_kph; // '22 kph';
+    wind.textContent = cityData.current.wind_mph; // '12 mph';
+    // // UV
+    const uv = document.querySelector('.uv');
+    uv.textContent = cityData.current.uv; // '5.0 UV';
+    // // CLOUD
+    const cloud = document.querySelector('.cloud');
+    cloud.textContent = cityData.current.cloud; //'Clear';
+  } else if (cityName === '') {
+    return console.log('input invalid, empty');
+  } else {
+    let cityData = await searchCity(API_KEY_WEATHER, cityName);
+    // let cityData = await tellWeather(API_KEY_WEATHER, foundCity);
+    console.log('there is input. city:' + cityName);
+     // // DATE & TIME
+     const mainDate = document.querySelector('.main-date');
+     mainDate.textContent = cityData.location.localtime; //'2/3/2023';
+     // GEO ICON & CITY
+     const mainCity = document.querySelector('.main-city');
+     mainCity.textContent = `${cityData.location.name}, ${cityData.location.region}, ${cityData.location.country}`; //'New York, United States';
+     // // MAIN WEATHER
+     const mainWeather = document.querySelector('.main-weather');
+     mainWeather.textContent = cityData.current.condition.text; //'Sunny';
+     // // TEMPERATURE
+     const temp = document.querySelector('.temp');
+     temp.textContent = cityData.current.temp_c; // '23°C';
+     temp.textContent = cityData.current.temp_f; // '45°F';
+     // // HUMIDITY
+     const humid = document.querySelector('.humid');
+     humid.textContent = cityData.current.humidity; // '80%';
+     // // WIND
+     const wind = document.querySelector('.wind');
+     wind.textContent = cityData.current.wind_kph; // '22 kph';
+     wind.textContent = cityData.current.wind_mph; // '12 mph';
+     // // UV
+     const uv = document.querySelector('.uv');
+     uv.textContent = cityData.current.uv; // '5.0 UV';
+     // // CLOUD
+     const cloud = document.querySelector('.cloud');
+     cloud.textContent = cityData.current.cloud; //'Clear'
+  }
 }
 fillMainCenter();
-
 
 function fillSidebar(cityArray) {
   for (let i = 0; i < cityArray.length; i++) {
@@ -121,8 +168,6 @@ function fillMainEnd(howMany) {
 }
 fillMainEnd(7);
 
-
-
 const form = document.querySelector('form');
 const search = document.querySelector('#search');
 form.addEventListener('submit', (e) => {
@@ -133,17 +178,17 @@ form.addEventListener('submit', (e) => {
 // TEMPERATURE SCALE & MEASUREMT SYSTEM
 const tempButton = document.querySelector('.temperature-button');
 tempButton.addEventListener('click', () => {
-  if (tempButton.textContent === 'celcius') {
-    tempButton.textContent = 'fahrenheit';
+  if (tempButton.textContent === 'Celcius') {
+    tempButton.textContent = 'Fahrenheit';
   } else {
-    tempButton.textContent = 'celcius';
+    tempButton.textContent = 'Celcius';
   }
 });
 const sysButton = document.querySelector('.sys-measure-button');
 sysButton.addEventListener('click', () => {
-  if (sysButton.textContent === 'metric') {
-    sysButton.textContent = 'imperial';
+  if (sysButton.textContent === 'Metric') {
+    sysButton.textContent = 'Imperial';
   } else {
-    sysButton.textContent = 'metric';
+    sysButton.textContent = 'Metric';
   }
 });

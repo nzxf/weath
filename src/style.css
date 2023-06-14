@@ -47,7 +47,7 @@ body {
   height: 100%;
   display: grid;
   grid-template-rows: 35px 1fr 100px;
-  gap: 10px;
+gap: 10px;
 }
 
 .start-main {
@@ -64,28 +64,29 @@ body {
 .app-name {
   font-family: 'bold';
   font-size: 1.25rem;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 /* SEARCH BAR  */
 
 form {
-  width: 100%;
-  display: flex;
+  background-image: linear-gradient(to left, #4b4b4b, #3f3f3f);
+  display: grid;
+  grid-template-columns: 1fr 25px;
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  background-image: linear-gradient(to left, #4b4b4b, #3f3f3f);
   padding: 0 10px;
 }
 
 form > input {
-  width: 90%;
   background-color: transparent;
   border: none;
   outline: none;
 }
 
 form > button {
+  cursor: pointer;
   background-color: transparent;
   font-size: 1.2rem;
 }
@@ -97,6 +98,7 @@ form > button {
   background-color: transparent;
   cursor: pointer;
   font-family: 'med';
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .start-main > button:hover {
@@ -264,7 +266,7 @@ form > button {
 .center-sidebar {
   width: 100%;
   display: grid;
-  grid-template-rows: repeat(5, auto);
+  grid-template-rows: repeat(auto-fit, auto);
   gap: 7.5px;
 }
 
