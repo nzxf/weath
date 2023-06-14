@@ -53,13 +53,43 @@ const centerSidebar = document.querySelector('.center-sidebar');
 
 let tempIcon = `url(https://cdn-icons-png.flaticon.com/512/6420/6420894.png)`;
 
+function fillMainCenter(dataMain) {
+  const mainContainer = document.querySelector('.main-container');
+  // DATE & TIME
+  const mainDate = document.querySelector('.main-date');
+  mainDate.textContent = '2/3/2023';
+  // GEO ICON & CITY
+  const mainCity = document.querySelector('.main-city');
+  mainCity.textContent = 'New York, United States';
+  // MAIN WEATHER
+  const mainWeather = document.querySelector('.main-weather');
+  mainWeather.textContent = 'Sunny';
+  // TEMPERATURE
+  const temp = document.querySelector('.temp');
+  temp.textContent = '23°C';
+  // HUMIDITY
+  const humid = document.querySelector('.humid');
+  humid.textContent = '80%';
+  // WIND
+  const wind = document.querySelector('.wind');
+  wind.textContent = '22 kph';
+  // UV
+  const uv = document.querySelector('.uv');
+  uv.textContent = '5.0 UV';
+  // CLOUD
+  const cloud = document.querySelector('.cloud');
+  cloud.textContent = 'Clear';
+}
+fillMainCenter();
+
+
 function fillSidebar(cityArray) {
   for (let i = 0; i < cityArray.length; i++) {
     // const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
     const sideContainer = elMaker('div', centerSidebar, 'side-container');
     // TEMPERATURE
     const sideTemp = elMaker('div', sideContainer, 'side-temp');
-    sideTemp.textContent = '31°'; // `${data.current.temp_c}°`,
+    sideTemp.textContent = '31°C'; // `${data.current.temp_c}°`,
     // ICON
     const sideIcon = elMaker('div', sideContainer, 'side-icon');
     sideIcon.style.backgroundImage = tempIcon;
@@ -86,59 +116,18 @@ function fillMainEnd(howMany) {
     endIcon.style.backgroundImage = tempIcon;
     // TEMPERATURE
     const endTemp = elMaker('div', dayContainer, 'end-temp');
-    endTemp.textContent = '24°';
+    endTemp.textContent = '24°C';
   }
 }
 fillMainEnd(7);
 
-function fillMainCenter(dataMain) {
-  const centerMain = document.querySelector('.center-main');
-  const mainContainer = elMaker('div', centerMain, 'main-container');
-  // DATE & TIME
-  const dateContainer = elMaker('div', mainContainer, 'date-container');
-  const mainDate = elMaker('div', dateContainer, 'main-date');
-  mainDate.textContent = '2/3/2023';
-  // GEO ICON & CITY
-  const geoContainer = elMaker('div', mainContainer, 'geo-container');
-  elMaker('span', geoContainer, 'geo-icon');
-  const mainCity = elMaker('span', geoContainer, 'main-city');
-  mainCity.textContent = 'New York, United States';
-  // MAIN ICON
-  const mainIcon = elMaker('div', mainContainer, 'main-icon');
-  const mainWeather = elMaker('div', mainContainer, 'main-weather');
-  mainWeather.textContent = 'Sunny';
-  // TEMPERATURE
-  const temp = elMaker('div', mainContainer, 'main-temp');
-  elMaker('div', temp, 'temp-icon', 'sub-icon');
-  const tempText = elMaker('div', temp, 'sub-text');
-  tempText.textContent = '23°C';
-  // HUMIDITY
-  const humid = elMaker('div', mainContainer, 'main-humidity');
-  elMaker('div', humid, 'humid-icon', 'sub-icon');
-  const humidText = elMaker('div', humid, 'sub-text');
-  humidText.textContent = '80%';
-  // WIND
-  const wind = elMaker('div', mainContainer, 'main-wind');
-  elMaker('div', wind, 'wind-icon', 'sub-icon');
-  const windText = elMaker('div', wind, 'sub-text');
-  windText.textContent = '22 kph';
-  // HUMIDITY
-  const uv = elMaker('div', mainContainer, 'main-uv');
-  elMaker('div', uv, 'uv-icon', 'sub-icon');
-  const uvText = elMaker('div', uv, 'sub-text');
-  uvText.textContent = '5.0';
-  // CLOUD
-  const cloud = elMaker('div', mainContainer, 'main-cloud');
-  elMaker('div', cloud, 'cloud-icon', 'sub-icon');
-  const cloudText = elMaker('div', cloud, 'sub-text');
-  cloudText.textContent = 'Clear';
-}
-fillMainCenter();
+
 
 const form = document.querySelector('form');
-const search = document.querySelector('#search')
-form.addEventListener('submit', () => {
-  console.log(search.value)
+const search = document.querySelector('#search');
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  console.log(search.value);
 });
 
 // TEMPERATURE SCALE & MEASUREMT SYSTEM
