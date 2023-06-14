@@ -21,32 +21,35 @@
         </div>
         <div class="center-main">
           <div class="main-container">
-            <div class="date-container">
-              <div class="main-date"></div>
-            </div>
             <div class="geo-container">
               <div class="geo-icon"></div>
               <div class="main-city"></div>
             </div>
+            <div class="date-container">
+              <div class="date-icon"></div>
+              <div class="main-date"></div>
+            </div>
             <div class="main-icon"></div>
             <div class="main-weather"></div>
-            <div class="temp-container sub-container">
+            <div class="temp-container sub-container" data-hover="Temperature">
               <div class="temp-icon sub-icon"></div>
-              <div class="temp"></div>
+              <div class="temp temp-celcius"></div>
+              <div class="temp temp-fahrenheit hidden"></div>
             </div>
-            <div class="humid-container sub-container">
+            <div class="humid-container sub-container" data-hover="Air Humidity">
               <div class="humid-icon sub-icon"></div>
               <div class="humid"></div>
             </div>
-            <div class="wind-container sub-container">
+            <div class="wind-container sub-container" data-hover="Air Movement">
               <div class="wind-icon sub-icon"></div>
-              <div class="wind"></div>
+              <div class="wind wind-metric"></div>
+              <div class="wind wind-imperial hidden"></div>
             </div>
-            <div class="uv-container sub-container">
+            <div class="uv-container sub-container" data-hover="UV Index Level">
               <div class="uv-icon sub-icon"></div>
               <div class="uv"></div>
             </div>
-            <div class="cloud-container sub-container">
+            <div class="cloud-container sub-container" data-hover="Sky Coverage">
               <div class="cloud-icon sub-icon"></div>
               <div class="cloud"></div>
             </div>
