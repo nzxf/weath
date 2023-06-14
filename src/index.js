@@ -134,3 +134,27 @@ function fillMainCenter(dataMain) {
   cloudText.textContent = 'Clear';
 }
 fillMainCenter();
+
+const form = document.querySelector('form');
+const search = document.querySelector('#search')
+form.addEventListener('submit', () => {
+  console.log(search.value)
+});
+
+// TEMPERATURE SCALE & MEASUREMT SYSTEM
+const tempButton = document.querySelector('.temperature-button');
+tempButton.addEventListener('click', () => {
+  if (tempButton.textContent === 'celcius') {
+    tempButton.textContent = 'fahrenheit';
+  } else {
+    tempButton.textContent = 'celcius';
+  }
+});
+const sysButton = document.querySelector('.sys-measure-button');
+sysButton.addEventListener('click', () => {
+  if (sysButton.textContent === 'metric') {
+    sysButton.textContent = 'imperial';
+  } else {
+    sysButton.textContent = 'metric';
+  }
+});
