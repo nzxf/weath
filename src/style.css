@@ -129,10 +129,8 @@ form > button {
 
 .date-container {
   grid-column: 1/6;
-  width: 100%;
   display: flex;
-  justify-content: space-between;
-  border-radius: 20px;
+  gap: 5px;
 }
 
 .geo-container {
@@ -140,6 +138,7 @@ form > button {
   display: flex;
   gap: 5px;
 }
+
 .geo-icon {
   background-image: url(https://cdn-icons-png.flaticon.com/512/6421/6421001.png);
   height: 15px;
@@ -150,7 +149,18 @@ form > button {
   transform: translateY(7.5px);
 }
 
-.main-city {
+.date-icon {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/6421/6421036.png);
+  height: 15px;
+  width: 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: translateY(7.5px);
+  }
+
+
+.main-city, .main-date {
   font-family: 'med';
   padding: 5px 0;
 }
@@ -175,6 +185,23 @@ form > button {
   grid-column: 1/2;
   text-align: center;
 }
+
+.sub-container:after {
+  text-align: center;
+  content: attr(data-hover);
+  border-radius: 15px;
+  border: solid 1px grey;
+  background-color: grey;
+  padding: 0px 5px;
+  position: absolute;
+  opacity: 0;
+  transform: translate(0px, -25px);
+}
+
+.sub-container:hover:after {
+  opacity: 1;
+}
+
 .temp-icon {
   background-image: url(https://cdn-icons-png.flaticon.com/512/6421/6421026.png);
 }
@@ -222,6 +249,10 @@ form > button {
   background-position: center;
   background-repeat: no-repeat;
   background-size: 25px;
+}
+
+.hidden {
+  display: none;
 }
 
 /* 7 DAYS FORECAST */
