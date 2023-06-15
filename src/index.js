@@ -34,7 +34,7 @@ const tellLocation = async (api, ipAddress) => {
 // API WEATHER
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
 const tellWeather = async (api, city) => {
-  const url = 'http://api.weatherapi.com/v1/';
+  const url = 'https://api.weatherapi.com/v1/';
   const cors = { mode: 'cors' };
   const res = await fetch(`${url}current.json?key=${api}&q=${city}`, cors);
   const data = await res.json();
@@ -42,7 +42,7 @@ const tellWeather = async (api, city) => {
   return data;
 };
 const tellForecast = async (api, zipcode, days) => {
-  const url = 'http://api.weatherapi.com/v1/';
+  const url = 'https://api.weatherapi.com/v1/';
   const res = await fetch(
     `${url}forecast.json?key=${api}&q=${zipcode}&days=${days}`
   );
@@ -129,14 +129,16 @@ function fillMainEnd(howMany) {
   for (let i = 0; i < howMany; i++) {
     const dayContainer = elMaker('div', endMain, 'day-container');
     // DATE & DAY
+    const date = elMaker('div', dayContainer, `date-${i}`, 'dates');
+    date.textContent = howMany + i;
     const day = elMaker('div', dayContainer, `day-${i}`, 'days');
-    day.textContent = howMany + i + '(Tue)';
+    day.textContent = '(Tue)';
     // ICON
     const endIcon = elMaker('div', dayContainer, 'end-icon');
     endIcon.style.backgroundImage = tempIcon;
     // TEMPERATURE
     const endTemp = elMaker('div', dayContainer, 'end-temp');
-    endTemp.textContent = '24°C';
+    endTemp.textContent = '24 °C';
   }
 }
 fillMainEnd(7);
