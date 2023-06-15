@@ -18,19 +18,49 @@ const myFunctions = (() => {
   const randomBetween = (min, max) => {
     return Math.floor(Math.random() * (max + 1 - min) + min);
   };
-  // RANDOM FROM ARRAY
-  const randomFromArray = (arr, howMany) => {
-    let result = [];
-    while (result.length < howMany) {
-      let random = randomBetween(0, arr.length - 1);
-      if (!result.includes(random)) {
-        result.push(arr[random]);
-      }
-    }
-    return result;
-  };
 
-  return { elementMaker, randomBetween, randomFromArray };
+// GET A WEEK START FROM TOMORROW
+const aWeekFromNow = () => {
+  let result = [];
+  let daysOfWeek = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+  let theDay = daysOfWeek[new Date().getDay()];
+  let index = daysOfWeek.indexOf(theDay);
+  for (let i = index; i < daysOfWeek.length; i++) {
+    result.push(daysOfWeek[i].slice(0, 3));
+  }
+  for (let i = 0; i < index; i++) {
+    result.push(daysOfWeek[i]);
+  }
+  return result;
+};
+const removeChildren = (parent) => {
+  while (parent.hasChildNodes()) {
+    parent.removeChild(parent.children[0]);
+  }
+};
+const sideCities = (data) => {
+  let result = [];
+  let max = 9;
+  result.push(
+    data.africanCities[randomBetween(0, max)],
+    data.asianCities[randomBetween(0, max)],
+    data.europeanCities[randomBetween(0, max)],
+    data.northAmericanCities[randomBetween(0, max)],
+    data.southAmericanCities[randomBetween(0, max)],
+    data.australiaOceaniaCities[randomBetween(0, max)]
+  );
+  return result;
+};
+
+  return { elementMaker, randomBetween, aWeekFromNow, removeChildren, sideCities };
 })();
 
 export { myFunctions };

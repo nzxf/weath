@@ -4,50 +4,9 @@ import { worlds } from './worlds';
 import { myFunctions } from './functions';
 
 const elMaker = myFunctions.elementMaker;
-const randomBetween = myFunctions.randomBetween;
-const randomFromArray = myFunctions.randomFromArray;
-
-// GET A WEEK START FROM TOMORROW
-const aWeekFromNow = () => {
-  let result = [];
-  let daysOfWeek = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
-  let theDay = daysOfWeek[new Date().getDay()];
-  let index = daysOfWeek.indexOf(theDay);
-  for (let i = index; i < daysOfWeek.length; i++) {
-    result.push(daysOfWeek[i].slice(0, 3));
-  }
-  for (let i = 0; i < index; i++) {
-    result.push(daysOfWeek[i]);
-  }
-  return result;
-};
-const removeChildren = (parent) => {
-  while (parent.hasChildNodes()) {
-    parent.removeChild(parent.children[0]);
-  }
-};
-
-const sideCities = (data) => {
-  let result = [];
-  let max = 9;
-  result.push(
-    data.africanCities[randomBetween(0, max)],
-    data.asianCities[randomBetween(0, max)],
-    data.europeanCities[randomBetween(0, max)],
-    data.northAmericanCities[randomBetween(0, max)],
-    data.southAmericanCities[randomBetween(0, max)],
-    data.australiaOceaniaCities[randomBetween(0, max)]
-  );
-  return result;
-};
+const aWeekFromNow = myFunctions.aWeekFromNow
+const removeChildren = myFunctions.removeChildren
+const sideCities = myFunctions.sideCities
 
 // API WEATHER
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
@@ -119,7 +78,6 @@ const checkInput = async (userInput) => {
     // console.log(cityData.forecast)
   }
 };
-// checkInput()
 
 const sidebar = document.querySelector('.sidebar');
 async function fillSidebar(cityArray) {
@@ -171,7 +129,7 @@ form.addEventListener('submit', (e) => {
   checkInput(search.value);
 });
 
-// TEMPERATURE SCALE & MEASUREMT SYSTEM
+// TEMPERATURE SCALE
 const tempButton = document.querySelector('.temperature-button');
 tempButton.addEventListener('click', () => {
   if (tempButton.textContent === 'Celcius') {
@@ -184,7 +142,7 @@ tempButton.addEventListener('click', () => {
   temps.forEach((temp) => temp.classList.toggle('hidden'));
   sideTemps.forEach((sideTemp) => sideTemp.classList.toggle('hidden'));
 });
-
+// MEASUREMT SYSTEM
 const sysButton = document.querySelector('.sys-measure-button');
 const windMeasures = document.querySelectorAll('.wind');
 sysButton.addEventListener('click', () => {
