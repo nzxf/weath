@@ -35,9 +35,10 @@ const tellLocation = async (api, ipAddress) => {
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
 const tellWeather = async (api, city) => {
   const url = 'http://api.weatherapi.com/v1/';
-  const res = await fetch(`${url}current.json?key=${api}&q=${city}`);
+  const cors = { mode: 'cors' };
+  const res = await fetch(`${url}current.json?key=${api}&q=${city}`, cors);
   const data = await res.json();
-  // console.log(data.current.condition.text);
+  // console.log(data);
   return data;
 };
 const tellForecast = async (api, zipcode, days) => {
@@ -48,6 +49,8 @@ const tellForecast = async (api, zipcode, days) => {
   const data = await res.json();
   return data;
 };
+tellForecast(API_KEY_WEATHER, '', 3)
+
 
 const centerSidebar = document.querySelector('.center-sidebar');
 
