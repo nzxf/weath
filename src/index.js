@@ -7,12 +7,39 @@ const elMaker = myFunctions.elementMaker;
 const randomInbetween = myFunctions.randomInbetween;
 const randomFromArray = myFunctions.randomFromArray;
 
+// GET TODAY DATE
 const nowDate = () => {
-  let day = date.getDate();
-  let month = date.getMonth() - 1;
-  let year = date.getFullYear();
-  return `day/month/year`;
+  let result = [];
+  result.push(
+    new Date().getDate(),
+    new Date().getMonth(),
+    new Date().getFullYear()
+  );
+  return result;
 };
+
+// GET TODAY DAY
+const nowDay = () => {
+  let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  let today = new Date().getDay()
+  return daysOfWeek[today]
+}
+
+// GET A WEEK START FFOM TODAY (ARRAY)
+const aWeekFromNow = () => {
+  let result = []
+  let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  let theDay = daysOfWeek[new Date().getDay()]
+  let index = daysOfWeek.indexOf(theDay)
+  for (let i = index; i < daysOfWeek.length; i++) {
+    result.push(daysOfWeek[i].slice(0,3))
+  }
+  for (let i = 0; i < index; i++) {
+    result.push(daysOfWeek[i].slice(0,3))
+  }
+  return result
+}
+
 
 const tellIpAddress = async () => {
   const res = await fetch('https://api.ipify.org?format=json');
@@ -49,7 +76,7 @@ const tellForecast = async (api, zipcode, days) => {
   const data = await res.json();
   return data;
 };
-// console.log(tellForecast(API_KEY_WEATHER, 'london', 7))
+// console.log(tellForecast(API_KEY_WEATHER, 'lon', 7))
 
 let tempIcon = `url(https://cdn-icons-png.flaticon.com/512/6420/6420894.png)`;
 
@@ -85,18 +112,19 @@ function fillMainBody(cityData) {
 }
 const checkInput = async (userInput) => {
   if (!userInput) {
-    let cityData = await tellWeather(
-      API_KEY_WEATHER,
-      randomFromArray(worlds, 1)
-    );
-    // console.log('no city input, searching randomly');
-    return fillMainBody(cityData);
-  } else if (userInput === '') {
+    // let cityData = await tellWeather(
+    //   API_KEY_WEATHER,
+    //   randomFromArray(worlds, 1)
+    // );
+    // // console.log('no city input, searching randomly');
+    // return fillMainBody(cityData);
     return console.log('input invalid, empty');
   } else {
-    let cityData = await tellWeather(API_KEY_WEATHER, userInput);
+    let cityData = await tellForecast(API_KEY_WEATHER, userInput, 7);
     // console.log('there is input. city:' + userInput);
-    return fillMainBody(cityData);
+    fillMainBody(cityData);
+    fillEndBody(cityData);
+    // console.log(cityData.forecast)
   }
 };
 // checkInput()
@@ -122,24 +150,26 @@ function fillSidebar(cityArray) {
 }
 fillSidebar(randomFromArray(worlds, 5));
 
-function fillEndBody(howMany) {
+function fillEndBody(rawData) {
+  let dataArr = rawData.forecast.forecastday;
+  let weekDays = aWeekFromNow()
+  console.log(dataArr[3].day.condition.text);
   const endBody = document.querySelector('.end-body');
-  for (let i = 0; i < howMany; i++) {
+  for (let i = 0; i < dataArr.length; i++) {
     const dayContainer = elMaker('div', endBody, 'day-container');
     // DATE & DAY
     const date = elMaker('div', dayContainer, `date-${i}`, 'dates');
-    date.textContent = howMany + i;
+    date.textContent = dataArr[i].date.slice(8,10);
     const day = elMaker('div', dayContainer, `day-${i}`, 'days');
-    day.textContent = '(Tue)';
+    day.textContent = weekDays[i]
     // ICON
     const endIcon = elMaker('div', dayContainer, 'end-icon');
     endIcon.style.backgroundImage = tempIcon;
     // WEATHER CONDITION
     const endWeather = elMaker('div', dayContainer, 'end-weather');
-    endWeather.textContent = 'Partly Cloudy';
+    endWeather.textContent = dataArr[i].day.condition.text;
   }
 }
-fillEndBody(7);
 
 const form = document.querySelector('form');
 const search = document.querySelector('#search');
@@ -170,3 +200,4 @@ sysButton.addEventListener('click', () => {
   }
   windMeasures.forEach((measure) => measure.classList.toggle('hidden'));
 });
+
