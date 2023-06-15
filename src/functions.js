@@ -15,14 +15,14 @@ const myFunctions = (() => {
     return element;
   };
   // RANDOM NUMBER BETWEEN TWO NUMBERS
-  const randomInbetween = (min, max) => {
+  const randomBetween = (min, max) => {
     return Math.floor(Math.random() * (max + 1 - min) + min);
   };
   // RANDOM FROM ARRAY
   const randomFromArray = (arr, howMany) => {
     let result = [];
     while (result.length < howMany) {
-      let random = randomInbetween(0, arr.length - 1);
+      let random = randomBetween(0, arr.length - 1);
       if (!result.includes(random)) {
         result.push(arr[random]);
       }
@@ -30,7 +30,7 @@ const myFunctions = (() => {
     return result;
   };
 
-  return { elementMaker, randomInbetween, randomFromArray };
+  return { elementMaker, randomBetween, randomFromArray };
 })();
 
 export { myFunctions };

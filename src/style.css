@@ -22,7 +22,6 @@
   padding: 0;
   border: none;
   font-family: 'light';
-  /* border: solid 1px var(--greyish); */
   color: #eeeeee;
 }
 
@@ -39,7 +38,7 @@ body {
   width: 85%;
   height: 95%;
   display: grid;
-  grid-template-columns: 1fr minmax(50px, 225px);
+  grid-template-columns: 1fr minmax(50px, 300px);
   grid-template-rows: 35px 1fr 130px;
   gap: 7.5px;
 }
@@ -273,7 +272,7 @@ form > button {
   border-radius: 20px;
   display: grid;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   grid-template-rows: 1fr 1fr 2fr 2fr;
   text-align: center;
   padding: 2.5px;
@@ -290,6 +289,7 @@ form > button {
 }
 
 .end-weather {
+  width: 100%;
   font-size: .8em;
 }
 
@@ -305,7 +305,8 @@ form > button {
 
 .side-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 2fr auto 1fr;
+  grid-template-rows: auto 1fr;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -320,7 +321,12 @@ form > button {
   /* color: #80D8FF; */
 }
 
+.side-country {
+  grid-row: 2/3;
+}
+
 .side-temp {
+  grid-row: 1/3;
   font-family: 'bold';
   font-size: 1.5rem;
   /* height: 100%; */
@@ -329,11 +335,12 @@ form > button {
 }
 
 .side-icon {
+  grid-row: 1/3;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  width: 100%;
-  height: 100%;
+  width: 45px;
+  height: 45px;
 }
 
 .sidebar-end {
@@ -355,7 +362,7 @@ form > button {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
-  height: 80px;
+  height: 65px;
   width: 100%;
 }
 
@@ -365,16 +372,18 @@ form > button {
     height: 98%;
     grid-template-columns: 1fr;
   }
-
   .side-container {
     display: flex;
     flex-direction: column-reverse;
     justify-content: center;
     align-items: center;
   }
-  .side-temp {
-    display: none;
-  }
+.side-city {
+  font-size: .8rem;
+}
+
+  .side-country, 
+  .side-temp,
   .side-weather {
     display: none;
   }

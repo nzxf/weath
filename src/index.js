@@ -4,70 +4,63 @@ import { worlds } from './worlds';
 import { myFunctions } from './functions';
 
 const elMaker = myFunctions.elementMaker;
-const randomInbetween = myFunctions.randomInbetween;
+const randomBetween = myFunctions.randomBetween;
 const randomFromArray = myFunctions.randomFromArray;
 
-// GET TODAY DATE
-const nowDate = () => {
+// GET A WEEK START FROM TOMORROW
+const aWeekFromNow = () => {
   let result = [];
+  let daysOfWeek = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+  let theDay = daysOfWeek[new Date().getDay()];
+  let index = daysOfWeek.indexOf(theDay);
+  for (let i = index; i < daysOfWeek.length; i++) {
+    result.push(daysOfWeek[i].slice(0, 3));
+  }
+  for (let i = 0; i < index; i++) {
+    result.push(daysOfWeek[i]);
+  }
+  return result;
+};
+const removeChildren = (parent) => {
+  while (parent.hasChildNodes()) {
+    parent.removeChild(parent.children[0]);
+  }
+};
+
+const sideCities = (data) => {
+  let result = [];
+  let max = 9;
   result.push(
-    new Date().getDate(),
-    new Date().getMonth(),
-    new Date().getFullYear()
+    data.africanCities[randomBetween(0, max)],
+    data.asianCities[randomBetween(0, max)],
+    data.europeanCities[randomBetween(0, max)],
+    data.northAmericanCities[randomBetween(0, max)],
+    data.southAmericanCities[randomBetween(0, max)],
+    data.australiaOceaniaCities[randomBetween(0, max)]
   );
   return result;
 };
 
-// GET TODAY DAY
-const nowDay = () => {
-  let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  let today = new Date().getDay()
-  return daysOfWeek[today]
-}
-
-// GET A WEEK START FFOM TODAY (ARRAY)
-const aWeekFromNow = () => {
-  let result = []
-  let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  let theDay = daysOfWeek[new Date().getDay()]
-  let index = daysOfWeek.indexOf(theDay)
-  for (let i = index; i < daysOfWeek.length; i++) {
-    result.push(daysOfWeek[i].slice(0,3))
-  }
-  for (let i = 0; i < index; i++) {
-    result.push(daysOfWeek[i].slice(0,3))
-  }
-  return result
-}
-
-
-const tellIpAddress = async () => {
-  const res = await fetch('https://api.ipify.org?format=json');
-  const data = await res.json();
-  return data.ip;
-};
-
-// API GEO IP
-const API_KEY_GEOIP = '46788080029a430a3331b15c97285a3f';
-const tellLocation = async (api, ipAddress) => {
-  const url = 'http://api.ipstack.com/';
-  const res = await fetch(`${url}${ipAddress}?access_key=${api}`);
-  const data = await res.json();
-  // console.log(data.city);
-  return data;
-};
-// tellLocation('138.199.22.107');
-
 // API WEATHER
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
+let tempIcon = `url(https://cdn-icons-png.flaticon.com/512/6420/6420894.png)`;
+
 const tellWeather = async (api, city) => {
   const url = 'https://api.weatherapi.com/v1/';
   const cors = { mode: 'cors' };
   const res = await fetch(`${url}current.json?key=${api}&q=${city}`, cors);
   const data = await res.json();
-  // console.log(data);
   return data;
 };
+
 const tellForecast = async (api, zipcode, days) => {
   const url = 'https://api.weatherapi.com/v1/';
   const res = await fetch(
@@ -76,9 +69,14 @@ const tellForecast = async (api, zipcode, days) => {
   const data = await res.json();
   return data;
 };
-// console.log(tellForecast(API_KEY_WEATHER, 'lon', 7))
 
-let tempIcon = `url(https://cdn-icons-png.flaticon.com/512/6420/6420894.png)`;
+const userFrom = async (api, key) => {
+  const url = 'https://api.weatherapi.com/v1/';
+  const cors = { mode: 'cors' };
+  const res = await fetch(`${url}current.json?key=${api}&q=${key}`, cors);
+  const data = await res.json();
+  return data.location.name;
+};
 
 function fillMainBody(cityData) {
   // // DATE & TIME
@@ -112,12 +110,6 @@ function fillMainBody(cityData) {
 }
 const checkInput = async (userInput) => {
   if (!userInput) {
-    // let cityData = await tellWeather(
-    //   API_KEY_WEATHER,
-    //   randomFromArray(worlds, 1)
-    // );
-    // // console.log('no city input, searching randomly');
-    // return fillMainBody(cityData);
     return console.log('input invalid, empty');
   } else {
     let cityData = await tellForecast(API_KEY_WEATHER, userInput, 7);
@@ -130,42 +122,43 @@ const checkInput = async (userInput) => {
 // checkInput()
 
 const sidebar = document.querySelector('.sidebar');
-function fillSidebar(cityArray) {
+async function fillSidebar(cityArray) {
   for (let i = 0; i < cityArray.length; i++) {
-    // const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
+    const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
     const sideContainer = elMaker('div', sidebar, 'side-container');
     // CITY & COUNTRY
     const sideCity = elMaker('span', sideContainer, 'side-city');
-    sideCity.textContent = 'Bangkok, Thailand'; // `${data.location.name}, ${data.location.country}`,
+    sideCity.textContent = data.location.name;
+    const sideCountry = elMaker('span', sideContainer, 'side-country');
+    sideCountry.textContent = data.location.country;
     // ICON
     const sideIcon = elMaker('div', sideContainer, 'side-icon');
     sideIcon.style.backgroundImage = tempIcon;
     // TEMPERATURE
-    const sideTemp = elMaker('span', sideContainer, 'side-temp');
-    sideTemp.textContent = '31°C'; // `${data.current.temp_c}°`,
-    // // WEATHER
-    // const sideWeather = elMaker('div', sideContainer, 'side-weather');
-    // sideWeather.textContent = 'Partly Cloudy'; // data.current.condition.text,
+    const sideTempC = elMaker('span', sideContainer, 'side-temp');
+    sideTempC.textContent = `${data.current.temp_c} °C`;
+    const sideTempF = elMaker('span', sideContainer, 'side-temp', 'hidden');
+    sideTempF.textContent = `${data.current.temp_f} °F`;
   }
 }
-fillSidebar(randomFromArray(worlds, 5));
+fillSidebar(sideCities(worlds));
 
 function fillEndBody(rawData) {
   let dataArr = rawData.forecast.forecastday;
-  let weekDays = aWeekFromNow()
-  console.log(dataArr[3].day.condition.text);
+  let weekDays = aWeekFromNow();
   const endBody = document.querySelector('.end-body');
+  removeChildren(endBody);
   for (let i = 0; i < dataArr.length; i++) {
     const dayContainer = elMaker('div', endBody, 'day-container');
     // DATE & DAY
     const date = elMaker('div', dayContainer, `date-${i}`, 'dates');
-    date.textContent = dataArr[i].date.slice(8,10);
+    date.textContent = dataArr[i].date.slice(8, 10);
     const day = elMaker('div', dayContainer, `day-${i}`, 'days');
-    day.textContent = weekDays[i]
+    day.textContent = weekDays[i].slice(0, 3);
     // ICON
     const endIcon = elMaker('div', dayContainer, 'end-icon');
     endIcon.style.backgroundImage = tempIcon;
-    // WEATHER CONDITION
+    // WEATHER
     const endWeather = elMaker('div', dayContainer, 'end-weather');
     endWeather.textContent = dataArr[i].day.condition.text;
   }
@@ -180,14 +173,16 @@ form.addEventListener('submit', (e) => {
 
 // TEMPERATURE SCALE & MEASUREMT SYSTEM
 const tempButton = document.querySelector('.temperature-button');
-const temps = document.querySelectorAll('.temp');
 tempButton.addEventListener('click', () => {
   if (tempButton.textContent === 'Celcius') {
     tempButton.textContent = 'Fahrenheit';
   } else {
     tempButton.textContent = 'Celcius';
   }
+  const temps = document.querySelectorAll('.temp');
+  const sideTemps = document.querySelectorAll('.side-temp');
   temps.forEach((temp) => temp.classList.toggle('hidden'));
+  sideTemps.forEach((sideTemp) => sideTemp.classList.toggle('hidden'));
 });
 
 const sysButton = document.querySelector('.sys-measure-button');
@@ -201,3 +196,8 @@ sysButton.addEventListener('click', () => {
   windMeasures.forEach((measure) => measure.classList.toggle('hidden'));
 });
 
+const firstLoad = async () => {
+  let userLoc = await userFrom(API_KEY_WEATHER, 'auto:ip');
+  return checkInput(userLoc);
+};
+firstLoad();

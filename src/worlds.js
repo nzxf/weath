@@ -1,33 +1,76 @@
-const africanCapitals = ['Cairo', 'Nairobi', 'Pretoria', 'Algiers', 'Abuja'];
-const asianCapitals = ['Tokyo', 'Beijing', 'New Delhi', 'Seoul', 'Bangkok'];
-const europeanCapitals = ['London', 'Paris', 'Berlin', 'Rome', 'Madrid'];
-const northAmericanCapitals = [
-  'Washington D.C.',
-  'Ottawa',
-  'Mexico City',
-  'Bogotá',
-  'Havana',
-];
-const southAmericanCapitals = [
-  'Brasília',
-  'Buenos Aires',
-  'Lima',
-  'Santiago ',
-  'Montevideo',
-];
-const australiaOceaniaCapitals = [
-  'Canberra',
-  'Wellington ',
-  'Suva',
-  'Port Moresby',
-  'Honiara',
-];
-const worlds = africanCapitals.concat(
-  asianCapitals,
-  europeanCapitals,
-  northAmericanCapitals,
-  southAmericanCapitals,
-  australiaOceaniaCapitals
-);
+const worlds = {
+  africanCities: [
+    'Cairo',
+    'Lagos',
+    'Kinshasa',
+    'Johannesburg',
+    'Nairobi',
+    'Addis Ababa',
+    'Accra',
+    'Dar es Salaam',
+    'Abuja',
+    'Casablanca',
+  ],
+  asianCities: [
+    'Tokyo',
+    'Shanghai',
+    'Jakarta',
+    'Delhi',
+    'Seoul',
+    'Bangkok',
+    'Istanbul',
+    'Tehran',
+    'Mumbai',
+    'Beijing',
+  ],
+  europeanCities: [
+    'London',
+    'Paris',
+    'Berlin',
+    'Madrid',
+    'Rome',
+    'Athens',
+    'Amsterdam',
+    'Oslo',
+    'Dublin',
+    'Stockholm',
+  ],
+  northAmericanCities: [
+    'New York',
+    'Los Angeles',
+    'Toronto',
+    'Mexico',
+    'Chicago',
+    'Houston',
+    'Vancouver',
+    'Montreal',
+    'Philadelphia',
+    'Calgary',
+  ],
+  southAmericanCities: [
+    'São Paulo',
+    'Buenos Aires',
+    'Rio de Janeiro',
+    'Lima',
+    'Bogotá',
+    'Santiago',
+    'Caracas',
+    'Quito',
+    'La Paz',
+    'Asunción',
+  ],
+  australiaOceaniaCities: [
+    'Sydney',
+    'Melbourne',
+    'Auckland',
+    'Brisbane',
+    'Perth',
+    'Adelaide',
+    'Honolulu',
+    'Suva',
+    'Port Moresby',
+    'Noumea',
+  ],
+};
 
-export { worlds };
+export {worlds};
