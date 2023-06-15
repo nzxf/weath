@@ -49,23 +49,20 @@ const tellForecast = async (api, zipcode, days) => {
   const data = await res.json();
   return data;
 };
-tellForecast(API_KEY_WEATHER, '', 3)
-
-
-const centerSidebar = document.querySelector('.center-sidebar');
+// console.log(tellForecast(API_KEY_WEATHER, 'london', 7))
 
 let tempIcon = `url(https://cdn-icons-png.flaticon.com/512/6420/6420894.png)`;
 
-function fillMainCenter(cityData) {
+function fillMainBody(cityData) {
   // // DATE & TIME
   const mainDate = document.querySelector('.main-date');
-  mainDate.textContent = cityData.location.localtime; //'2/3/2023';
+  mainDate.textContent = cityData.location.localtime;
   // GEO ICON & CITY
   const mainCity = document.querySelector('.main-city');
-  mainCity.textContent = `${cityData.location.name}, ${cityData.location.region}, ${cityData.location.country}`; //'New York, United States';
+  mainCity.textContent = `${cityData.location.name}, ${cityData.location.country}`;
   // // MAIN WEATHER
   const mainWeather = document.querySelector('.main-weather');
-  mainWeather.textContent = cityData.current.condition.text.toUpperCase(); //'Sunny';
+  mainWeather.textContent = cityData.current.condition.text.toUpperCase();
   // // TEMPERATURE
   const tempC = document.querySelector('.temp-celcius');
   tempC.textContent = `${cityData.current.temp_c} °C`;
@@ -93,41 +90,42 @@ const checkInput = async (userInput) => {
       randomFromArray(worlds, 1)
     );
     // console.log('no city input, searching randomly');
-    return fillMainCenter(cityData);
+    return fillMainBody(cityData);
   } else if (userInput === '') {
     return console.log('input invalid, empty');
   } else {
     let cityData = await tellWeather(API_KEY_WEATHER, userInput);
     // console.log('there is input. city:' + userInput);
-    return fillMainCenter(cityData);
+    return fillMainBody(cityData);
   }
 };
 // checkInput()
 
+const sidebar = document.querySelector('.sidebar');
 function fillSidebar(cityArray) {
   for (let i = 0; i < cityArray.length; i++) {
     // const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
-    const sideContainer = elMaker('div', centerSidebar, 'side-container');
-    // TEMPERATURE
-    const sideTemp = elMaker('div', sideContainer, 'side-temp');
-    sideTemp.textContent = '31°C'; // `${data.current.temp_c}°`,
+    const sideContainer = elMaker('div', sidebar, 'side-container');
+    // CITY & COUNTRY
+    const sideCity = elMaker('span', sideContainer, 'side-city');
+    sideCity.textContent = 'Bangkok, Thailand'; // `${data.location.name}, ${data.location.country}`,
     // ICON
     const sideIcon = elMaker('div', sideContainer, 'side-icon');
     sideIcon.style.backgroundImage = tempIcon;
-    // CITY & COUNTRY
-    const sideCity = elMaker('span', sideContainer, 'side-city');
-    sideCity.textContent = 'Madrid, Spain'; // `${data.location.name}, ${data.location.country}`,
-    // WEATHER
-    const sideWeather = elMaker('div', sideContainer, 'side-weather');
-    sideWeather.textContent = 'Partly Cloudy'; // data.current.condition.text,
+    // TEMPERATURE
+    const sideTemp = elMaker('span', sideContainer, 'side-temp');
+    sideTemp.textContent = '31°C'; // `${data.current.temp_c}°`,
+    // // WEATHER
+    // const sideWeather = elMaker('div', sideContainer, 'side-weather');
+    // sideWeather.textContent = 'Partly Cloudy'; // data.current.condition.text,
   }
 }
 fillSidebar(randomFromArray(worlds, 5));
 
-function fillMainEnd(howMany) {
-  const endMain = document.querySelector('.end-main');
+function fillEndBody(howMany) {
+  const endBody = document.querySelector('.end-body');
   for (let i = 0; i < howMany; i++) {
-    const dayContainer = elMaker('div', endMain, 'day-container');
+    const dayContainer = elMaker('div', endBody, 'day-container');
     // DATE & DAY
     const date = elMaker('div', dayContainer, `date-${i}`, 'dates');
     date.textContent = howMany + i;
@@ -136,12 +134,12 @@ function fillMainEnd(howMany) {
     // ICON
     const endIcon = elMaker('div', dayContainer, 'end-icon');
     endIcon.style.backgroundImage = tempIcon;
-    // TEMPERATURE
-    const endTemp = elMaker('div', dayContainer, 'end-temp');
-    endTemp.textContent = '24 °C';
+    // WEATHER CONDITION
+    const endWeather = elMaker('div', dayContainer, 'end-weather');
+    endWeather.textContent = 'Partly Cloudy';
   }
 }
-fillMainEnd(7);
+fillEndBody(7);
 
 const form = document.querySelector('form');
 const search = document.querySelector('#search');

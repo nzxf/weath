@@ -22,7 +22,7 @@
   padding: 0;
   border: none;
   font-family: 'light';
-  border: solid 1px var(--greyish);
+  /* border: solid 1px var(--greyish); */
   color: #eeeeee;
 }
 
@@ -32,31 +32,27 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: #d4d4d4; */
+  overflow: scroll;
 }
 
 #content {
-  width: clamp(90%, 70%, 1000px);
+  width: 85%;
   height: 95%;
   display: grid;
   grid-template-columns: 1fr minmax(50px, 225px);
-  gap: 10px;
+  grid-template-rows: 35px 1fr 130px;
+  gap: 7.5px;
 }
 
-.main {
-  height: 100%;
-  display: grid;
-  grid-template-rows: 35px 1fr 120px;
-gap: 10px;
-}
+.topbar {
+  grid-column: 1/3;
 
-.start-main {
   background-image: var(--blackish);
   width: 100%;
   width: 100%;
   display: grid;
   grid-template-columns: auto 1fr repeat(2, 70px);
-  gap: 7.5px;
+  gap: 5px;
   border-radius: 20px;
   padding: 5px 20px;
 }
@@ -65,6 +61,7 @@ gap: 10px;
   font-family: 'bold';
   font-size: 1.25rem;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  padding-right: 15px;
 }
 
 /* SEARCH BAR  */
@@ -94,21 +91,21 @@ form > button {
 
 /* TEMPERATURE SCALE AND SYSTEM MEASUREMENT */
 
-.start-main > button {
+.topbar > button {
   background-color: transparent;
   cursor: pointer;
   font-family: 'med';
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
-.start-main > button:hover {
+.topbar > button:hover {
   font-family: 'bold';
   color: white;
 }
 
 /* MAIN CITY */
 
-.center-main {
+.main-body {
   width: 100%;
   color: white;
 }
@@ -121,21 +118,27 @@ form > button {
   padding: 20px;
 
   display: grid;
-  grid-template-rows: auto auto 1fr auto auto;
+  grid-template-rows: auto 1fr auto auto;
   row-gap: 10px;
   grid-template-columns: repeat(5, 1fr);
   column-gap: 5px;
 }
 
-.date-container {
+.top-container {
   grid-column: 1/6;
+  display: flex;
+  justify-content: space-between;
+}
+
+.geo-container {
   display: flex;
   gap: 5px;
 }
 
-.geo-container {
-  grid-column: 1/6;
+.date-container {
   display: flex;
+  flex-direction: row-reverse;
+  text-align: end;
   gap: 5px;
 }
 
@@ -157,10 +160,10 @@ form > button {
   background-repeat: no-repeat;
   background-size: contain;
   transform: translateY(7.5px);
-  }
+}
 
-
-.main-city, .main-date {
+.main-city,
+.main-date {
   font-family: 'med';
   padding: 5px 0;
 }
@@ -191,7 +194,7 @@ form > button {
   content: attr(data-hover);
   border-radius: 15px;
   border: solid 1px grey;
-  background-color: grey;
+  background-color: rgba(128, 128, 128, 0.5);
   padding: 0px 5px;
   position: absolute;
   opacity: 0;
@@ -257,12 +260,12 @@ form > button {
 
 /* 7 DAYS FORECAST */
 
-.end-main {
+.end-body {
+  grid-column: 1/2;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   gap: 5px;
-  overflow: scroll;
 }
 
 .day-container {
@@ -271,11 +274,11 @@ form > button {
   display: grid;
   justify-content: center;
   align-items: center;
-  grid-template-rows: 1fr 1fr 2fr 1fr;
+  grid-template-rows: 1fr 1fr 2fr 2fr;
   text-align: center;
   padding: 2.5px;
   color: white;
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 
 .end-icon {
@@ -287,16 +290,9 @@ form > button {
 }
 
 .sidebar {
-  height: 100%;
-  display: grid;
-  grid-template-rows: 35px 1fr 120px;
-  gap: 10px;
-}
+  grid-row: 2/3;
+  grid-column: 2/3;
 
-.start-sidebar {
-  width: 100%;
-}
-.center-sidebar {
   width: 100%;
   display: grid;
   grid-template-rows: repeat(auto-fit, auto);
@@ -304,16 +300,15 @@ form > button {
 }
 
 .side-container {
-  background-image: var(--blackish);
-  padding: 10px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 2fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   justify-content: center;
   align-items: center;
   text-align: center;
+  background-image: var(--blackish);
   border-radius: 25px 25px 25px 25px;
   color: white;
+  padding: 10px;
 }
 
 .side-city {
@@ -323,9 +318,9 @@ form > button {
 
 .side-temp {
   font-family: 'bold';
-  font-size: 1.9rem;
-  height: 100%;
-  padding-top: 5px;
+  font-size: 1.5rem;
+  /* height: 100%; */
+  /* padding-top: 5px;*/
   /* transform: scale(1.3); */
 }
 
@@ -337,27 +332,34 @@ form > button {
   height: 100%;
 }
 
-.end-sidebar {
+.sidebar-end {
+  grid-column: 2/2;
+  grid-row: 3/4;
   background-image: var(--blackish);
   border-radius: 20px;
-  padding: 5px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   text-align: center;
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 
 .weather-api {
+  background-image: url(https://cdn.weatherapi.com/v4/images/weatherapi_logo.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 80px;
   width: 100%;
 }
 
 @media (max-width: 800px) {
   #content {
     width: 98%;
-    height: 95%;
-    grid-template-columns: 1fr 80px;
+    height: 98%;
+    grid-template-columns: 1fr;
   }
 
   .side-container {
@@ -372,9 +374,6 @@ form > button {
   .side-weather {
     display: none;
   }
-  .side-city {
-    font-size: 0.8rem;
-  }
   .side-icon {
     width: 35px;
     height: 35px;
@@ -384,8 +383,10 @@ form > button {
 @media only screen and (max-width: 700px) {
   #content {
     grid-template-columns: 1fr;
+    column-gap: 0;
   }
-  .sidebar {
+  .sidebar,
+  .sidebar-end {
     display: none;
   }
 }
