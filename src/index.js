@@ -1,6 +1,6 @@
 import './style.css';
 import { myFunctions } from './functions';
-import { firstIcons, secondaryIcons, errIcon } from './icons';
+import { icons } from './icons';
 import { weatherCodes } from './codes';
 import { worlds } from './worlds';
 
@@ -11,33 +11,42 @@ const dateMaker = myFunctions.dateMaker;
 const extractTime = myFunctions.extractTime;
 const dayOrNight = myFunctions.dayOrNight;
 
-const weatherCodeTranslator = (code) => {
-  if (weatherCodes.clear.includes(code)) {
-    // return secondaryIcons.clear;
+const weatherCodeTranslator = (dayOrNight, code) => {
+  // NEUTRAL
+  if (weatherCodes.storm.includes(code)) {
+    return icons.neutral.storm;
   }
-  if (weatherCodes.cloudy.includes(code)) {
-    return secondaryIcons.cloudy;
+  if (weatherCodes.mist.includes(code)) {
+    return icons.neutral.mist;
   }
-  if (weatherCodes.drizzly.includes(code)) {
-    return secondaryIcons.drizzly;
+  // DAY
+  if (dayOrNight === 'day' && weatherCodes.clear.includes(code)) {
+    return icons.day.clear;
   }
-  if (weatherCodes.rainy.includes(code)) {
-    return secondaryIcons.rainy;
+  if (dayOrNight === 'day' && weatherCodes.cloud.includes(code)) {
+    return icons.day.cloud;
   }
-  if (weatherCodes.snowy.includes(code)) {
-    return secondaryIcons.snowy;
+  if (dayOrNight === 'day' && weatherCodes.rain.includes(code)) {
+    return icons.day.rain;
   }
-  if (weatherCodes.thundery.includes(code)) {
-    return secondaryIcons.thundery;
+  if (dayOrNight === 'day' && weatherCodes.snow.includes(code)) {
+    return icons.day.snow;
   }
-  if (weatherCodes.stormy.includes(code)) {
-    return secondaryIcons.stormy;
+  // NIGHT
+  if (dayOrNight === 'night' && weatherCodes.clear.includes(code)) {
+    return icons.night.clear;
   }
-  if (weatherCodes.misty.includes(code)) {
-    return secondaryIcons.misty;
+  if (dayOrNight === 'night' && weatherCodes.cloud.includes(code)) {
+    return icons.night.cloud;
   }
-  // return errIcon
-  return firstIcons.day; // default clear day
+  if (dayOrNight === 'night' && weatherCodes.rain.includes(code)) {
+    return icons.night.rain;
+  }
+  if (dayOrNight === 'night' && weatherCodes.snow.includes(code)) {
+    return icons.night.snow;
+  }
+  // NONE ABOVE = ERROR
+  return icons.err;
 };
 
 // API WEATHER
@@ -67,15 +76,12 @@ const userFrom = async (api, key) => {
 };
 
 function fillMainBody(cityData) {
-  //  FIRST ICON
+  //  MAIN ICON
   let localTime = dayOrNight(extractTime(cityData.location.localtime));
-  const firstIcon = document.querySelector('.first-icon');
-  firstIcon.style.backgroundImage = `url(${firstIcons[localTime]}`;
-  // SECONDARY ICON
   let weatherCode = cityData.current.condition.code;
-  let weatherIcon = weatherCodeTranslator(weatherCode);
-  const secondaryIcon = document.querySelector('.secondary-icon');
-  secondaryIcon.style.backgroundImage = `url(${weatherIcon}`;
+  let weatherIcon = weatherCodeTranslator(localTime, weatherCode);
+  const mainIcon = document.querySelector('.main-icon');
+  mainIcon.style.backgroundImage = `url(${weatherIcon}`;
   // CITY
   const mainCity = document.querySelector('.main-city');
   mainCity.textContent = cityData.location.name;
@@ -114,7 +120,6 @@ function fillMainBody(cityData) {
 function fillEndBody(cityData) {
   let dataArr = cityData.forecast.forecastday;
   let weekDays = aWeekFromNow();
-
   for (let i = 0; i < 7; i++) {
     // DATE
     const date = document.querySelector(`.end-date-${i}`);
@@ -124,7 +129,7 @@ function fillEndBody(cityData) {
     day.textContent = weekDays[i].slice(0, 3);
     // ICON
     let weatherCode = dataArr[i].day.condition.code;
-    let weatherIcon = weatherCodeTranslator(weatherCode);
+    let weatherIcon = weatherCodeTranslator('day', weatherCode);
     const icon = document.querySelector(`.end-icon-${i}`);
     icon.style.backgroundImage = `url(${weatherIcon})`;
     // WEATHER
@@ -152,7 +157,7 @@ async function fillSidebar(cityArray) {
     sideCountry.textContent = data.location.country;
     // ICON
     let weatherCode = data.current.condition.code;
-    let weatherIcon = weatherCodeTranslator(weatherCode);
+    let weatherIcon = weatherCodeTranslator('day', weatherCode);
     const sideIcon = document.querySelector(`.side-icon-${i}`);
     sideIcon.style.backgroundImage = `url(${weatherIcon})`;
     // TEMPERTATURE CELCIUS
@@ -186,9 +191,14 @@ tempButton.addEventListener('click', () => {
   } else {
     tempButton.textContent = 'Celcius';
   }
+  // TEMP VALUE (MAIN BODY)
   const temps = document.querySelectorAll('.temp');
-  const sideTemps = document.querySelectorAll('.side-temp');
   temps.forEach((temp) => temp.classList.toggle('hidden'));
+  // TEMP ICON (MAIN BODY)
+  const iconTemps = document.querySelectorAll('.temp-icon');
+  iconTemps.forEach((iconTemp) => iconTemp.classList.toggle('hidden'));
+  // TEMP VALUES (SIDEBAR)
+  const sideTemps = document.querySelectorAll('.side-temp');
   sideTemps.forEach((sideTemp) => sideTemp.classList.toggle('hidden'));
 });
 // MEASUREMT SYSTEM
@@ -203,4 +213,4 @@ sysButton.addEventListener('click', () => {
   windMeasures.forEach((measure) => measure.classList.toggle('hidden'));
 });
 
-// firstLoad();
+firstLoad();
