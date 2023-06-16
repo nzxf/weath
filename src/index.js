@@ -1,18 +1,47 @@
 import './style.css';
-import { worlds } from './worlds';
-// import { colors } from './colors';
 import { myFunctions } from './functions';
+import { firstIcons, secondaryIcons, errIcon } from './icons';
+import { weatherCodes } from './codes';
+import { worlds } from './worlds';
 
-const elMaker = myFunctions.elementMaker;
 const aWeekFromNow = myFunctions.aWeekFromNow;
-const removeChildren = myFunctions.removeChildren;
 const sideCities = myFunctions.sideCities;
 const dayMaker = myFunctions.dayMaker;
 const dateMaker = myFunctions.dateMaker;
+const extractTime = myFunctions.extractTime;
+const dayOrNight = myFunctions.dayOrNight;
+
+const weatherCodeTranslator = (code) => {
+  if (weatherCodes.clear.includes(code)) {
+    // return secondaryIcons.clear;
+  }
+  if (weatherCodes.cloudy.includes(code)) {
+    return secondaryIcons.cloudy;
+  }
+  if (weatherCodes.drizzly.includes(code)) {
+    return secondaryIcons.drizzly;
+  }
+  if (weatherCodes.rainy.includes(code)) {
+    return secondaryIcons.rainy;
+  }
+  if (weatherCodes.snowy.includes(code)) {
+    return secondaryIcons.snowy;
+  }
+  if (weatherCodes.thundery.includes(code)) {
+    return secondaryIcons.thundery;
+  }
+  if (weatherCodes.stormy.includes(code)) {
+    return secondaryIcons.stormy;
+  }
+  if (weatherCodes.misty.includes(code)) {
+    return secondaryIcons.misty;
+  }
+  // return errIcon
+  return firstIcons.day; // default clear day
+};
 
 // API WEATHER
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
-let tempIcon = `url(https://cdn-icons-png.flaticon.com/512/6420/6420894.png)`;
 
 const tellWeather = async (api, city) => {
   const url = 'https://api.weatherapi.com/v1/';
@@ -38,6 +67,15 @@ const userFrom = async (api, key) => {
 };
 
 function fillMainBody(cityData) {
+  //  FIRST ICON
+  let localTime = dayOrNight(extractTime(cityData.location.localtime));
+  const firstIcon = document.querySelector('.first-icon');
+  firstIcon.style.backgroundImage = `url(${firstIcons[localTime]}`;
+  // SECONDARY ICON
+  let weatherCode = cityData.current.condition.code;
+  let weatherIcon = weatherCodeTranslator(weatherCode);
+  const secondaryIcon = document.querySelector('.secondary-icon');
+  secondaryIcon.style.backgroundImage = `url(${weatherIcon}`;
   // CITY
   const mainCity = document.querySelector('.main-city');
   mainCity.textContent = cityData.location.name;
@@ -53,7 +91,7 @@ function fillMainBody(cityData) {
   // // MAIN WEATHER
   const mainWeather = document.querySelector('.main-weather');
   mainWeather.textContent = cityData.current.condition.text.toUpperCase();
-  // // TEMPERATURE
+  // // TEMPERATURES
   const tempC = document.querySelector('.temp-celcius');
   tempC.textContent = `${cityData.current.temp_c} °C`;
   const tempF = document.querySelector('.temp-fahrenheit');
@@ -76,24 +114,24 @@ function fillMainBody(cityData) {
 function fillEndBody(cityData) {
   let dataArr = cityData.forecast.forecastday;
   let weekDays = aWeekFromNow();
-  const endBody = document.querySelector('.end-body');
-  removeChildren(endBody);
-  for (let i = 0; i < dataArr.length; i++) {
-    const dayContainer = elMaker('div', endBody, 'day-container');
-    // DATE & DAY
-    const date = elMaker('div', dayContainer, `date-${i}`, 'end-date');
+
+  for (let i = 0; i < 7; i++) {
+    // DATE
+    const date = document.querySelector(`.end-date-${i}`);
     date.textContent = dataArr[i].date.slice(8, 10);
-    const day = elMaker('div', dayContainer, `day-${i}`, 'end-day');
+    // DAY
+    const day = document.querySelector(`.end-day-${i}`);
     day.textContent = weekDays[i].slice(0, 3);
     // ICON
-    const endIcon = elMaker('div', dayContainer, 'end-icon');
-    endIcon.style.backgroundImage = tempIcon;
+    let weatherCode = dataArr[i].day.condition.code;
+    let weatherIcon = weatherCodeTranslator(weatherCode);
+    const icon = document.querySelector(`.end-icon-${i}`);
+    icon.style.backgroundImage = `url(${weatherIcon})`;
     // WEATHER
-    const endWeather = elMaker('div', dayContainer, 'end-weather');
-    endWeather.textContent = dataArr[i].day.condition.text;
+    const weather = document.querySelector(`.end-weather-${i}`);
+    weather.textContent = dataArr[i].day.condition.text;
   }
 }
-
 async function checkInput(userInput) {
   if (!userInput) {
     return console.log('input invalid, empty');
@@ -103,25 +141,34 @@ async function checkInput(userInput) {
     fillEndBody(cityData);
   }
 }
-
 async function fillSidebar(cityArray) {
   for (let i = 0; i < cityArray.length; i++) {
     const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
-    // CITY & COUNTRY
+    // CITY
     const sideCity = document.querySelector(`.side-city-${i}`);
     sideCity.textContent = data.location.name;
+    // COUNTRY
     const sideCountry = document.querySelector(`.side-country-${i}`);
     sideCountry.textContent = data.location.country;
     // ICON
+    let weatherCode = data.current.condition.code;
+    let weatherIcon = weatherCodeTranslator(weatherCode);
     const sideIcon = document.querySelector(`.side-icon-${i}`);
-    sideIcon.style.backgroundImage = tempIcon;
-    // TEMPERATURES
+    sideIcon.style.backgroundImage = `url(${weatherIcon})`;
+    // TEMPERTATURE CELCIUS
     const sideTempC = document.querySelector(`.side-temp-c-${i}`);
     sideTempC.textContent = `${data.current.temp_c} °C`;
+    // TEMPERTATURE FAHRENHEIT
     const sideTempF = document.querySelector(`.side-temp-f-${i}`, 'hidden');
     sideTempF.textContent = `${data.current.temp_f} °F`;
   }
 }
+
+const firstLoad = async () => {
+  fillSidebar(sideCities(worlds));
+  let userLoc = await userFrom(API_KEY_WEATHER, 'auto:ip');
+  return checkInput(userLoc);
+};
 
 // SEARCH INPUT
 const form = document.querySelector('form');
@@ -156,9 +203,4 @@ sysButton.addEventListener('click', () => {
   windMeasures.forEach((measure) => measure.classList.toggle('hidden'));
 });
 
-const firstLoad = async () => {
-  fillSidebar(sideCities(worlds));
-  let userLoc = await userFrom(API_KEY_WEATHER, 'auto:ip');
-  return checkInput(userLoc);
-};
-firstLoad();
+// firstLoad();

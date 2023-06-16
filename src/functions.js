@@ -1,19 +1,4 @@
 const myFunctions = (() => {
-  // ELEMENT MAKER
-  const elementMaker = (type, parent, ...classNames) => {
-    if (!type || typeof type !== 'string') {
-      throw new Error(`Invalid value for 'type' parameter`);
-    }
-    if (!(parent instanceof Element)) {
-      throw new Error(`'parent' parameter must be valid DOM element`);
-    }
-    const element = document.createElement(type);
-    if (classNames.length > 0) {
-      classNames.forEach((className) => element.classList.add(className));
-    }
-    parent.appendChild(element);
-    return element;
-  };
   // RANDOM NUMBER BETWEEN TWO NUMBERS
   const randomBetween = (min, max) => {
     return Math.floor(Math.random() * (max + 1 - min) + min);
@@ -39,12 +24,6 @@ const myFunctions = (() => {
       result.push(daysOfWeek[i]);
     }
     return result;
-  };
-  // REMOVE ALL CHILDREN ELEMENTS
-  const removeChildren = (parent) => {
-    while (parent.hasChildNodes()) {
-      parent.removeChild(parent.children[0]);
-    }
   };
   // PICK A CITY FROM EACH CONTINENTS
   const sideCities = (data) => {
@@ -72,15 +51,24 @@ const myFunctions = (() => {
     const optionsDate = { year: 'numeric', month: 'short', day: 'numeric' };
     return aDate.toLocaleDateString(undefined, optionsDate);
   };
+  // EXTRACT ONLY HOURS & MINUTES
+  const extractTime = (string) => string.slice(11, 13) + string.slice(14, 16);
+  // IS IT DAY OR NIGHT
+  const dayOrNight = (string) => {
+    if (parseInt(string) <= 600 || parseInt(string) >= 1800) {
+      return 'night';
+    }
+    return 'day';
+  };
 
   return {
-    elementMaker,
     randomBetween,
     aWeekFromNow,
-    removeChildren,
     sideCities,
     dayMaker,
     dateMaker,
+    extractTime,
+    dayOrNight,
   };
 })();
 
