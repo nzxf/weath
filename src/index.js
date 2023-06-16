@@ -4,9 +4,11 @@ import { worlds } from './worlds';
 import { myFunctions } from './functions';
 
 const elMaker = myFunctions.elementMaker;
-const aWeekFromNow = myFunctions.aWeekFromNow
-const removeChildren = myFunctions.removeChildren
-const sideCities = myFunctions.sideCities
+const aWeekFromNow = myFunctions.aWeekFromNow;
+const removeChildren = myFunctions.removeChildren;
+const sideCities = myFunctions.sideCities;
+const dayMaker = myFunctions.dayMaker;
+const dateMaker = myFunctions.dateMaker;
 
 // API WEATHER
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
@@ -19,7 +21,6 @@ const tellWeather = async (api, city) => {
   const data = await res.json();
   return data;
 };
-
 const tellForecast = async (api, zipcode, days) => {
   const url = 'https://api.weatherapi.com/v1/';
   const res = await fetch(
@@ -28,7 +29,6 @@ const tellForecast = async (api, zipcode, days) => {
   const data = await res.json();
   return data;
 };
-
 const userFrom = async (api, key) => {
   const url = 'https://api.weatherapi.com/v1/';
   const cors = { mode: 'cors' };
@@ -38,12 +38,18 @@ const userFrom = async (api, key) => {
 };
 
 function fillMainBody(cityData) {
-  // // DATE & TIME
-  const mainDate = document.querySelector('.main-date');
-  mainDate.textContent = cityData.location.localtime;
-  // GEO ICON & CITY
+  // CITY
   const mainCity = document.querySelector('.main-city');
-  mainCity.textContent = `${cityData.location.name}, ${cityData.location.country}`;
+  mainCity.textContent = cityData.location.name;
+  // COUNTRY
+  const mainCountry = document.querySelector('.main-country');
+  mainCountry.textContent = cityData.location.country;
+  // // LOCALE DATE
+  const mainDate = document.querySelector('.main-date');
+  mainDate.textContent = dateMaker(cityData.location.localtime);
+  // // LOCALE TIME
+  const mainTime = document.querySelector('.main-time');
+  mainTime.textContent = dayMaker(cityData.location.localtime);
   // // MAIN WEATHER
   const mainWeather = document.querySelector('.main-weather');
   mainWeather.textContent = cityData.current.condition.text.toUpperCase();
@@ -67,51 +73,17 @@ function fillMainBody(cityData) {
   const cloud = document.querySelector('.cloud');
   cloud.textContent = `${cityData.current.cloud}%`;
 }
-const checkInput = async (userInput) => {
-  if (!userInput) {
-    return console.log('input invalid, empty');
-  } else {
-    let cityData = await tellForecast(API_KEY_WEATHER, userInput, 7);
-    // console.log('there is input. city:' + userInput);
-    fillMainBody(cityData);
-    fillEndBody(cityData);
-    // console.log(cityData.forecast)
-  }
-};
-
-const sidebar = document.querySelector('.sidebar');
-async function fillSidebar(cityArray) {
-  for (let i = 0; i < cityArray.length; i++) {
-    const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
-    const sideContainer = elMaker('div', sidebar, 'side-container');
-    // CITY & COUNTRY
-    const sideCity = elMaker('span', sideContainer, 'side-city');
-    sideCity.textContent = data.location.name;
-    const sideCountry = elMaker('span', sideContainer, 'side-country');
-    sideCountry.textContent = data.location.country;
-    // ICON
-    const sideIcon = elMaker('div', sideContainer, 'side-icon');
-    sideIcon.style.backgroundImage = tempIcon;
-    // TEMPERATURE
-    const sideTempC = elMaker('span', sideContainer, 'side-temp');
-    sideTempC.textContent = `${data.current.temp_c} °C`;
-    const sideTempF = elMaker('span', sideContainer, 'side-temp', 'hidden');
-    sideTempF.textContent = `${data.current.temp_f} °F`;
-  }
-}
-fillSidebar(sideCities(worlds));
-
-function fillEndBody(rawData) {
-  let dataArr = rawData.forecast.forecastday;
+function fillEndBody(cityData) {
+  let dataArr = cityData.forecast.forecastday;
   let weekDays = aWeekFromNow();
   const endBody = document.querySelector('.end-body');
   removeChildren(endBody);
   for (let i = 0; i < dataArr.length; i++) {
     const dayContainer = elMaker('div', endBody, 'day-container');
     // DATE & DAY
-    const date = elMaker('div', dayContainer, `date-${i}`, 'dates');
+    const date = elMaker('div', dayContainer, `date-${i}`, 'end-date');
     date.textContent = dataArr[i].date.slice(8, 10);
-    const day = elMaker('div', dayContainer, `day-${i}`, 'days');
+    const day = elMaker('div', dayContainer, `day-${i}`, 'end-day');
     day.textContent = weekDays[i].slice(0, 3);
     // ICON
     const endIcon = elMaker('div', dayContainer, 'end-icon');
@@ -122,10 +94,40 @@ function fillEndBody(rawData) {
   }
 }
 
+async function checkInput(userInput) {
+  if (!userInput) {
+    return console.log('input invalid, empty');
+  } else {
+    let cityData = await tellForecast(API_KEY_WEATHER, userInput, 7);
+    fillMainBody(cityData);
+    fillEndBody(cityData);
+  }
+}
+
+async function fillSidebar(cityArray) {
+  for (let i = 0; i < cityArray.length; i++) {
+    const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
+    // CITY & COUNTRY
+    const sideCity = document.querySelector(`.side-city-${i}`);
+    sideCity.textContent = data.location.name;
+    const sideCountry = document.querySelector(`.side-country-${i}`);
+    sideCountry.textContent = data.location.country;
+    // ICON
+    const sideIcon = document.querySelector(`.side-icon-${i}`);
+    sideIcon.style.backgroundImage = tempIcon;
+    // TEMPERATURES
+    const sideTempC = document.querySelector(`.side-temp-c-${i}`);
+    sideTempC.textContent = `${data.current.temp_c} °C`;
+    const sideTempF = document.querySelector(`.side-temp-f-${i}`, 'hidden');
+    sideTempF.textContent = `${data.current.temp_f} °F`;
+  }
+}
+
+// SEARCH INPUT
 const form = document.querySelector('form');
-const search = document.querySelector('#search');
 form.addEventListener('submit', (e) => {
   e.preventDefault();
+  const search = document.querySelector('#search');
   checkInput(search.value);
 });
 
@@ -155,6 +157,7 @@ sysButton.addEventListener('click', () => {
 });
 
 const firstLoad = async () => {
+  fillSidebar(sideCities(worlds));
   let userLoc = await userFrom(API_KEY_WEATHER, 'auto:ip');
   return checkInput(userLoc);
 };
