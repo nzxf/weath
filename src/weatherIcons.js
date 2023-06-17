@@ -31,6 +31,7 @@ const icons = {
     storm: 'https://cdn-icons-png.flaticon.com/512/1146/1146860.png',
   },
   err: 'https://cdn-icons-png.flaticon.com/512/2797/2797387.png',
+  lost: 'https://cdn-icons-png.flaticon.com/512/3430/3430143.png'
 };
 
 export { firstIcons, secondaryIcons, icons };

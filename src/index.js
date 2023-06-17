@@ -21,6 +21,62 @@ const animateElement = myFunctions.animateElement;
 // API WEATHER (NOT SECURE?)
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
 
+const selectEl = (className) => document.querySelector(`.${className}`);
+const selectEls = (...classNames) => {
+  let allElements = [];
+  for (const className of classNames) {
+    const newElements = document.querySelectorAll(`.${className}`);
+    newElements.forEach((newElement) => {
+      allElements.push(newElement);
+    });
+  }
+  return allElements;
+};
+
+const lostCity = () => {
+  let input = 'New Lost Vegas';
+  // TEXT
+  selectEl('main-city').textContent = 'Sorry';
+  selectEl(
+    'main-country'
+  ).textContent = `We cannot find a place named ${input}`;
+  selectEl('main-weather').textContent = 'Bring this just to be safe';
+  // IMAGE
+  selectEl('main-icon').style.backgroundImage = `url(${icons.lost})`;
+  selectEls('sub-icon').forEach((el) => (el.style.backgroundImage = 'none'));
+  selectEls('end-icon').forEach((el)=> el.style.backgroundImage = `url(${icons.err})`)
+};
+
+const clearBottomBar = () => {
+  // ICON
+  selectEls('end-icon').forEach(
+    (el) => (el.style.backgroundImage = 'none')
+  );
+  // RESTS
+  selectEls('end-date', 'end-day', 'end-weather').forEach(
+    (el) => (el.textContent = '')
+  );
+};
+const clearMainBody = () => {
+  // ICON
+  selectEls('main-icon', 'sub-icon').forEach(
+    (el) => (el.style.backgroundImage = 'none')
+  );
+  // RESTS
+  selectEls(
+    'main-city',
+    'main-country',
+    'main-date',
+    'main-time',
+    'main-weather',
+    'temp',
+    'humid',
+    'wind',
+    'uv',
+    'cloud'
+  ).forEach((el) => (el.textContent = ''));
+};
+
 const tellWeather = async (api, city) => {
   const url = 'https://api.weatherapi.com/v1/';
   const cors = { mode: 'cors' };
@@ -65,7 +121,7 @@ function fillMainBody(cityData) {
   mainTime.textContent = dayMaker(cityData.location.localtime);
   // // MAIN WEATHER
   const mainWeather = document.querySelector('.main-weather');
-  mainWeather.textContent = cityData.current.condition.text.toUpperCase();
+  mainWeather.textContent = cityData.current.condition.text;
   // // TEMPERATURES
   const tempC = document.querySelector('.temp-celcius');
   tempC.textContent = `${cityData.current.temp_c} °C`;
@@ -139,11 +195,14 @@ async function fillSidebar(cityArray) {
 }
 async function checkInput(userInput) {
   if (!userInput) {
-    return console.log('input invalid, empty');
+    clearMainBody()
+    clearBottomBar()
+    return lostCity();
   } else {
     let cityData = await tellForecast(API_KEY_WEATHER, userInput, 8);
     fillMainBody(cityData);
     fillBottomBar(cityData);
+    // console.log(cityData);
   }
 }
 const firstLoad = async () => {
