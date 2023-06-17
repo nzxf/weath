@@ -25,7 +25,7 @@
   font-family: 'med';
   font-size: 1.1rem;
   color: #eeeeee;
-  /* border: solid 1px orange; */
+  /* border: solid pink; */
 }
 
 body {
@@ -88,13 +88,13 @@ body {
 .main-date {
   height: 100%;
   font-family: 'bold';
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .main-country,
 .main-time {
   height: 100%;
-  font-size: 1rem;
+  font-size: 1.3rem;
   color: var(--greyish);
 }
 

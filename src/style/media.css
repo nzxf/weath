@@ -17,8 +17,7 @@
   
     .side-country,
     .side-temp,
-    .side-weather,
-    .side-time {
+   .right-side {
       display: none;
     }
     .side-icon {

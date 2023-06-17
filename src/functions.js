@@ -4,7 +4,7 @@ const myFunctions = (() => {
     return Math.floor(Math.random() * (max + 1 - min) + min);
   };
   // GET A WEEK START FROM TOMORROW
-  const aWeekFromNow = () => {
+  const aWeekFromTomorrow = () => {
     let result = [];
     let daysOfWeek = [
       'Sunday',
@@ -16,9 +16,9 @@ const myFunctions = (() => {
       'Saturday',
     ];
     let theDay = daysOfWeek[new Date().getDay()];
-    let index = daysOfWeek.indexOf(theDay);
+    let index = daysOfWeek.indexOf(theDay) + 1;
     for (let i = index; i < daysOfWeek.length; i++) {
-      result.push(daysOfWeek[i].slice(0, 3));
+      result.push(daysOfWeek[i]);
     }
     for (let i = 0; i < index; i++) {
       result.push(daysOfWeek[i]);
@@ -39,7 +39,7 @@ const myFunctions = (() => {
     );
     return result;
   };
-  // TRANSLATE RAWDATE INTO PRESENTABLE DAY & TIME
+  // TRANSLATE RAWDATE INTO PRESENTABLE DAY ( + TIME)
   const dayMaker = (dateString) => {
     let aDay = new Date(dateString);
     const optionsDay = { weekday: 'short', hour: 'numeric', minute: 'numeric' };
@@ -51,11 +51,15 @@ const myFunctions = (() => {
     const optionsDate = { year: 'numeric', month: 'short', day: 'numeric' };
     return aDate.toLocaleDateString(undefined, optionsDate);
   };
-  // EXTRACT ONLY HOURS & MINUTES
-  const extractTime = (string) => string.slice(11, 13) + string.slice(14, 16);
-  // IS IT DAY OR NIGHT
-  const dayOrNight = (string) => {
-    if (parseInt(string) <= 600 || parseInt(string) >= 1800) {
+  // TRANSLATE RAWDATE INTO PRESENTABLE TIME
+  const timeMaker = (dateString) => {
+    let aTime = new Date(dateString);
+    const optionsTime = {hour: '2-digit', minute:'2-digit', hour12: false};
+    return aTime.toLocaleTimeString(undefined,optionsTime)
+  }
+// FIND OUT IF DAY OR NIGHT 
+  const dayOrNight = (timeString) => {
+    if (parseInt(timeString) <= 6 || parseInt(timeString) >= 18) {
       return 'night';
     }
     return 'day';
@@ -71,32 +75,36 @@ const myFunctions = (() => {
       return output.neutral.mist;
     }
     // DAY
-    if (dayOrNight === 'day' && keys.clear.includes(code)) {
-      return output.day.clear;
-    }
-    if (dayOrNight === 'day' && keys.cloud.includes(code)) {
-      return output.day.cloud;
-    }
-    if (dayOrNight === 'day' && keys.rain.includes(code)) {
-      return output.day.rain;
-    }
-    if (dayOrNight === 'day' && keys.snow.includes(code)) {
-      return output.day.snow;
+    if (dayOrNight === 'day') {
+      if (keys.clear.includes(code)) {
+        return output.day.clear;
+      }
+      if (keys.cloud.includes(code)) {
+        return output.day.cloud;
+      }
+      if (keys.rain.includes(code)) {
+        return output.day.rain;
+      }
+      if (keys.snow.includes(code)) {
+        return output.day.snow;
+      }
     }
     // NIGHT
-    if (dayOrNight === 'night' && keys.clear.includes(code)) {
-      return output.night.clear;
+    if (dayOrNight === 'night') {
+      if (keys.clear.includes(code)) {
+        return output.night.clear;
+      }
+      if (keys.cloud.includes(code)) {
+        return output.night.cloud;
+      }
+      if (keys.rain.includes(code)) {
+        return output.night.rain;
+      }
+      if (keys.snow.includes(code)) {
+        return output.night.snow;
+      }
     }
-    if (dayOrNight === 'night' && keys.cloud.includes(code)) {
-      return output.night.cloud;
-    }
-    if (dayOrNight === 'night' && keys.rain.includes(code)) {
-      return output.night.rain;
-    }
-    if (dayOrNight === 'night' && keys.snow.includes(code)) {
-      return output.night.snow;
-    }
-    // NONE ABOVE = ERROR
+    // NONE OF ABOVE
     return output.err;
   };
   // ADD ANIMATION TO ELEMENT
@@ -114,14 +122,14 @@ const myFunctions = (() => {
   };
   return {
     randomBetween,
-    aWeekFromNow,
+    aWeekFromTomorrow,
     sideCities,
     dayMaker,
     dateMaker,
-    extractTime,
+    timeMaker,
     dayOrNight,
     weatherTranslator,
-    animateElement
+    animateElement,
   };
 })();
 

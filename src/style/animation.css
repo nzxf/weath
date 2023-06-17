@@ -2,21 +2,21 @@
 /* ANIMATION */
 
 .levitate {
-    background-image: url(https://cdn-icons-png.flaticon.com/512/8841/8841321.png);
-    animation: levitate 4s ease-in-out;
+    /* background-image: url(https://cdn-icons-png.flaticon.com/512/8841/8841321.png); */
+    animation: levitate 4s ease-out;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
   }
   
   @keyframes levitate {
     0% {
-      transform: translateY(-15px);
+      transform: scale(1.2) translateY(-15px);
     }
     50% {
-      transform: translateY(-30px);
+      transform: scale(1.2) translateY(-30px);
     }
     100% {
-      transform: translateY(-15px);
+      transform: scale(1.2) translateY(-15px);
     }
   }
   

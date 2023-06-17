@@ -5,20 +5,20 @@ import './style/sideBar.css';
 import './style/media.css';
 import './style/animation.css';
 import { myFunctions } from './functions';
-import { icons } from './icons';
+import { icons } from './weatherIcons';
 import { keys } from './weatherKeys';
 import { worlds } from './worlds';
 
-const aWeekFromNow = myFunctions.aWeekFromNow;
+const aWeekFromTomorrow = myFunctions.aWeekFromTomorrow;
 const sideCities = myFunctions.sideCities;
 const dayMaker = myFunctions.dayMaker;
 const dateMaker = myFunctions.dateMaker;
-const extractTime = myFunctions.extractTime;
+const timeMaker = myFunctions.timeMaker;
 const dayOrNight = myFunctions.dayOrNight;
 const weatherTranslator = myFunctions.weatherTranslator;
 const animateElement = myFunctions.animateElement;
 
-// API WEATHER
+// API WEATHER (NOT SECURE?)
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
 
 const tellWeather = async (api, city) => {
@@ -46,7 +46,7 @@ const userFrom = async (api, key) => {
 
 function fillMainBody(cityData) {
   //  MAIN ICON
-  let localTime = dayOrNight(extractTime(cityData.location.localtime));
+  let localTime = dayOrNight(timeMaker(cityData.location.localtime));
   let weatherCode = cityData.current.condition.code;
   let weatherIcon = weatherTranslator(localTime, weatherCode, keys, icons);
   const mainIcon = document.querySelector('.main-icon');
@@ -86,9 +86,10 @@ function fillMainBody(cityData) {
   const cloud = document.querySelector('.cloud');
   cloud.textContent = `${cityData.current.cloud}%`;
 }
-function fillEndBody(cityData) {
+function fillBottomBar(cityData) {
   let dataArr = cityData.forecast.forecastday;
-  let weekDays = aWeekFromNow();
+  dataArr.shift(); // FIRST DAY ALREADY SHOWN IN MAINBODY
+  let weekDays = aWeekFromTomorrow();
   for (let i = 0; i < 7; i++) {
     // DATE
     const date = document.querySelector(`.end-date-${i}`);
@@ -106,15 +107,7 @@ function fillEndBody(cityData) {
     weather.textContent = dataArr[i].day.condition.text;
   }
 }
-async function checkInput(userInput) {
-  if (!userInput) {
-    return console.log('input invalid, empty');
-  } else {
-    let cityData = await tellForecast(API_KEY_WEATHER, userInput, 7);
-    fillMainBody(cityData);
-    fillEndBody(cityData);
-  }
-}
+
 async function fillSidebar(cityArray) {
   for (let i = 0; i < cityArray.length; i++) {
     const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
@@ -125,7 +118,7 @@ async function fillSidebar(cityArray) {
     const sideCountry = document.querySelector(`.side-country-${i}`);
     sideCountry.textContent = data.location.country;
     // ICON
-    let localTime = dayOrNight(extractTime(data.location.localtime));
+    let localTime = dayOrNight(timeMaker(data.location.localtime));
     let weatherCode = data.current.condition.code;
     let weatherIcon = weatherTranslator(localTime, weatherCode, keys, icons);
     const sideIcon = document.querySelector(`.side-icon-${i}`);
@@ -144,7 +137,15 @@ async function fillSidebar(cityArray) {
   }
   animateElement('.sidebar-end', 'slide-in', 'once');
 }
-
+async function checkInput(userInput) {
+  if (!userInput) {
+    return console.log('input invalid, empty');
+  } else {
+    let cityData = await tellForecast(API_KEY_WEATHER, userInput, 8);
+    fillMainBody(cityData);
+    fillBottomBar(cityData);
+  }
+}
 const firstLoad = async () => {
   let userLoc = await userFrom(API_KEY_WEATHER, 'auto:ip');
   await checkInput(userLoc);
