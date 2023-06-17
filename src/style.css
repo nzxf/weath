@@ -14,9 +14,7 @@
 :root {
   --blackish: linear-gradient(to bottom left, #757575, #212121);
   --blackish2: linear-gradient(to left, #4b4b4b, #3f3f3f);
-  --blueish: linear-gradient(to bottom left, #39375D, #171C36);
-  --blueish2: linear-gradient(to top right, #2d2b57, #151b38);
-  --greyish: rgba(212, 212, 212, 0.25);
+  --greyish: rgba(255, 255, 255, 0.6);;
 }
 
 * {
@@ -24,10 +22,10 @@
   margin: 0;
   padding: 0;
   border: none;
-  font-family: 'light';
+  font-family: 'med';
   font-size: 1.1rem;
   color: #eeeeee;
-  /* border: solid 1px yellow; */
+  /* border: solid 1px orange; */
 }
 
 body {
@@ -40,12 +38,13 @@ body {
 }
 
 #content {
-  width: 85%;
+  width: 90%;
   height: 95%;
   display: grid;
-  grid-template-columns: 1fr minmax(50px, 280px);
+  grid-template-columns: 1fr minmax(50px, 300px);
   grid-template-rows: 45px 1fr auto;
   gap: 7.5px;
+  overflow: hidden;
 }
 
 .topbar {
@@ -140,6 +139,7 @@ form > button {
 .geo-container {
   display: flex;
   flex-direction: column;
+  text-align: start;
 }
 
 .date-container {
@@ -150,16 +150,18 @@ form > button {
 
 .main-city,
 .main-date {
+  height: 100%;
   font-family: 'bold';
-  padding: 5px 0;
+  /* padding: 5px 0; */
   font-size: 1.2rem;
 }
 
-.main-coutry,
+.main-country,
 .main-time {
   height: 100%;
-  padding: 5px 0;
+  /* padding: 5px 0; */
   font-size: 1rem;
+  color: var(--greyish);
 }
 
 .main-icon {
@@ -262,6 +264,7 @@ form > button {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   gap: 5px;
+  overflow: hidden;
 }
 
 .day-container {
@@ -275,6 +278,7 @@ form > button {
   padding: 7.5px 5px;
   color: white;
   font-size: 0.9rem;
+  overflow: hidden;
 }
 
 .end-date {
@@ -310,6 +314,7 @@ form > button {
   display: grid;
   grid-template-rows: repeat(auto-fit, auto);
   gap: 5px;
+  overflow: hidden;
 }
 
 .side-container {
@@ -328,21 +333,13 @@ form > button {
 
 .side-city {
   font-family: 'bold';
-  /* color: #80D8FF; */
 }
 
 .side-country {
   grid-row: 2/3;
   font-family: 'med';
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.side-temp {
-  grid-row: 1/3;
-  font-family: 'bold';
-  font-size: 1.4rem;
-  /* text-align: end; */
+  font-size: 0.8rem;
+  color: var(--greyish)
 }
 
 .side-icon {
@@ -351,6 +348,20 @@ form > button {
   background-repeat: no-repeat;
   background-size: contain;
   height: 45px;
+}
+
+.side-temp {
+  grid-row: 1/2;
+  grid-column: 3/4;
+  font-family: 'bold';
+}
+
+.side-time {
+    grid-row: 2/3;
+    grid-column: 3/4;
+    font-family: 'med';
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 /* ATTRIBUTES */
@@ -400,7 +411,8 @@ form > button {
 
   .side-country,
   .side-temp,
-  .side-weather {
+  .side-weather,
+  .side-time {
     display: none;
   }
   .side-icon {
@@ -427,20 +439,95 @@ form > button {
   }
 }
 
-.main-icon {
-  animation: bottom 4s ease-in-out;
+/* ANIMATION */
+
+.levitate {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/8841/8841321.png);
+  animation: levitate 4s ease-in-out;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 
-@keyframes bottom {
+@keyframes levitate {
   0% {
-    transform:scale(1.3)  translateY(-15px);
+    transform: translateY(-15px);
   }
   50% {
-    transform:scale(1.3)  translateY(-30px);
+    transform: translateY(-30px);
   }
   100% {
-    transform: scale(1.3) translateY(-15px);
+    transform: translateY(-15px);
   }
+}
+
+
+.shake {
+  animation: shake .3s;
+}
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+  }
+    33% {
+    transform: rotate(-2deg);
+  }
+    66% {
+    transform: rotate(2deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+.slide-in {
+  animation: slide-in .8s ease-in-out;
+}
+@keyframes slide-in {
+  0% {
+    transform: translateY(1000px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.side-container-0,
+.day-container-0 {
+  animation-delay: 0s;
+  transform: translateY(0px)
+}
+.side-container-1,
+.day-container-1 {
+  animation-delay: 0.2s;
+  transform: translateY(0px)
+}
+.side-container-2,
+.day-container-2 {
+  animation-delay: 0.4s;
+  transform: translateY(0px)
+}
+.side-container-3,
+.day-container-3 {
+  animation-delay: 0.6s;
+  transform: translateY(0px)
+}
+.side-container-4,
+.day-container-4 {
+  animation-delay: 0.8s;
+  transform: translateY(0px)
+}
+.side-container-5,
+.day-container-5 {
+  animation-delay: 1s;
+  transform: translateY(0px)
+}
+.sidebar-end,
+.day-container-6 {
+  animation-delay: 1.2s;
+  transform: translateY(0px)
+}
+
+
+.outside {
+  transform: translateY(1000px)
 }

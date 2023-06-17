@@ -49,6 +49,20 @@ const weatherCodeTranslator = (dayOrNight, code) => {
   return icons.err;
 };
 
+const animateElement = (className, animationName, iteration = 'infinity') => {
+  const targets = document.querySelectorAll(className);
+  targets.forEach((target) => target.classList.add(animationName));
+  if (iteration !== 'infinty') {
+    targets.forEach((target) =>
+      target.addEventListener('animationend', () => {
+        target.classList.remove(animationName);
+        target.classList.remove('outside');
+      })
+    );
+  }
+
+};
+
 // API WEATHER
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
 
@@ -112,7 +126,7 @@ function fillMainBody(cityData) {
   windImp.textContent = `${cityData.current.wind_kph} kph`;
   // UV
   const uv = document.querySelector('.uv');
-  uv.textContent = cityData.current.uv;
+  uv.textContent = `${cityData.current.uv}.0`;
   // CLOUD
   const cloud = document.querySelector('.cloud');
   cloud.textContent = `${cityData.current.cloud}%`;
@@ -156,8 +170,9 @@ async function fillSidebar(cityArray) {
     const sideCountry = document.querySelector(`.side-country-${i}`);
     sideCountry.textContent = data.location.country;
     // ICON
+    let localTime = dayOrNight(extractTime(data.location.localtime));
     let weatherCode = data.current.condition.code;
-    let weatherIcon = weatherCodeTranslator('day', weatherCode);
+    let weatherIcon = weatherCodeTranslator(localTime, weatherCode);
     const sideIcon = document.querySelector(`.side-icon-${i}`);
     sideIcon.style.backgroundImage = `url(${weatherIcon})`;
     // TEMPERTATURE CELCIUS
@@ -166,21 +181,30 @@ async function fillSidebar(cityArray) {
     // TEMPERTATURE FAHRENHEIT
     const sideTempF = document.querySelector(`.side-temp-f-${i}`, 'hidden');
     sideTempF.textContent = `${data.current.temp_f} °F`;
+    // LOCAL TIME
+    const sideTime = document.querySelector(`.side-time-${i}`);
+    sideTime.textContent = dayMaker(data.location.localtime);
+    // ANIMATION
+    animateElement(`.side-container-${i}`, 'slide-in', 'once')
   }
+  animateElement('.sidebar-end', 'slide-in', 'once')
 }
 
 const firstLoad = async () => {
-  fillSidebar(sideCities(worlds));
   let userLoc = await userFrom(API_KEY_WEATHER, 'auto:ip');
-  return checkInput(userLoc);
+  await checkInput(userLoc);
+  animateElement('.main-icon', 'levitate', 'infinity');
+  animateElement('.day-container', 'slide-in', 'once');
+  fillSidebar(sideCities(worlds));
 };
 
 // SEARCH INPUT
 const form = document.querySelector('form');
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const search = document.querySelector('#search');
-  checkInput(search.value);
+  await checkInput(document.querySelector('#search').value);
+  animateElement('.main-container', 'shake', 'once');
+  animateElement('.day-container', 'slide-in', 'once');
 });
 
 // TEMPERATURE SCALE
