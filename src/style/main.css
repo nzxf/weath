@@ -1,0 +1,196 @@
+@font-face {
+  font-family: 'light';
+  src: url(../fonts/Poppins-Light.ttf);
+}
+@font-face {
+  font-family: 'med';
+  src: url(../fonts/Poppins-Medium.ttf);
+}
+@font-face {
+  font-family: 'bold';
+  src: url(../fonts/Poppins-Bold.ttf);
+}
+
+:root {
+  --blackish: linear-gradient(to bottom left, #757575, #212121);
+  --blackish2: linear-gradient(to left, #4b4b4b, #3f3f3f);
+  --greyish: rgba(255, 255, 255, 0.6);;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: 'med';
+  font-size: 1.1rem;
+  color: #eeeeee;
+  /* border: solid 1px orange; */
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: scroll;
+}
+
+#content {
+  width: 90%;
+  height: 95%;
+  display: grid;
+  grid-template-columns: 1fr minmax(50px, 320px);
+  grid-template-rows: 45px 1fr auto;
+  gap: 7.5px;
+  overflow: hidden;
+}
+
+.topbar {
+  grid-column: 1/3;
+}
+
+/* MAIN BODY */
+.main-container {
+  background-image: var(--blackish);
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  padding: 20px;
+
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  row-gap: 10px;
+  grid-template-columns: repeat(5, 1fr);
+  column-gap: 5px;
+}
+
+.top-container {
+  grid-column: 1/6;
+  display: flex;
+  justify-content: space-between;
+}
+
+.geo-container {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+}
+
+.date-container {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+}
+
+.main-city,
+.main-date {
+  height: 100%;
+  font-family: 'bold';
+  font-size: 1.2rem;
+}
+
+.main-country,
+.main-time {
+  height: 100%;
+  font-size: 1rem;
+  color: var(--greyish);
+}
+
+.main-icon {
+  grid-column: 1/6;
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.main-weather {
+  grid-column: 1/6;
+  text-align: center;
+  font-family: 'bold';
+  font-size: 1.5rem;
+}
+
+.temp-container {
+  grid-column: 1/2;
+  text-align: center;
+}
+
+.sub-container:after {
+  text-align: center;
+  content: attr(data-hover);
+  border-radius: 15px;
+  border: solid 1px grey;
+  background-color: rgba(128, 128, 128, 0.5);
+  padding: 0px 5px;
+  position: absolute;
+  opacity: 0;
+  transform: translate(0px, -25px);
+}
+
+.sub-container:hover:after {
+  opacity: 1;
+}
+
+.humid-container {
+  grid-column: 2/3;
+  text-align: center;
+}
+
+.wind-container {
+  grid-column: 3/4;
+  text-align: center;
+}
+
+.uv-container {
+  grid-column: 4/5;
+  text-align: center;
+}
+
+.cloud-container {
+  grid-column: 5/6;
+  text-align: center;
+}
+
+
+.sub-container {
+  display: flex;
+  flex-direction: column;
+  gap: 7.5px;
+  padding: 10px 0;
+}
+
+.sub-icon {
+  height: 30px;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ALL ICONS  */
+
+.temp-icon-c {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/1146/1146866.png);
+}
+.temp-icon-f {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/1146/1146868.png);
+}
+.humid-icon {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/2828/2828802.png);
+}
+.wind-icon {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/1146/1146907.png);
+}
+.uv-icon {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/4005/4005885.png);
+}
+.cloud-icon {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/1146/1146877.png);
+}

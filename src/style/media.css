@@ -1,0 +1,47 @@
+
+@media (max-width: 1000px) {
+    #content {
+      width: 98%;
+      height: 98%;
+      grid-template-columns: 1fr;
+    }
+    .side-container {
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: center;
+      align-items: center;
+    }
+    .side-city {
+      font-size: 0.8rem;
+    }
+  
+    .side-country,
+    .side-temp,
+    .side-weather,
+    .side-time {
+      display: none;
+    }
+    .side-icon {
+      width: 35px;
+      height: 35px;
+    }
+    .weather-api {
+      height: 60px;
+      width: 80px;
+    }
+  }
+  
+  @media only screen and (max-width: 750px) {
+    #content {
+      grid-template-columns: 1fr;
+      column-gap: 0;
+    }
+    .sidebar,
+    .sidebar-end {
+      display: none;
+    }
+    .end-weather {
+      font-size: 0.8em;
+    }
+  }
+  

@@ -1,0 +1,60 @@
+.topbar {
+  grid-column: 1/3;
+
+  background-image: var(--blackish);
+  width: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 15px;
+  border-radius: 20px;
+  padding: 5px 20px;
+}
+
+.app-name {
+  font-family: 'bold';
+  font-size: 1.25rem;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* SEARCH BAR  */
+
+form {
+  background-image: var(--blackish2);
+  display: grid;
+  grid-template-columns: 1fr 25px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  padding: 0 10px;
+}
+
+form > input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+form > button {
+  cursor: pointer;
+  background-color: transparent;
+  font-size: 1.2rem;
+}
+
+/* TEMPERATURE SCALE AND SYSTEM MEASUREMENT */
+
+.pref-button {
+  width: 75px;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: 'med';
+  font-size: 1rem;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.pref-button:hover {
+  font-family: 'bold';
+  color: white;
+}

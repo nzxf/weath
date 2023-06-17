@@ -1,7 +1,12 @@
-import './style.css';
+import './style/main.css';
+import './style/topBar.css';
+import './style/bottomBar.css';
+import './style/sideBar.css';
+import './style/media.css';
+import './style/animation.css';
 import { myFunctions } from './functions';
 import { icons } from './icons';
-import { weatherCodes } from './codes';
+import { keys } from './weatherKeys';
 import { worlds } from './worlds';
 
 const aWeekFromNow = myFunctions.aWeekFromNow;
@@ -10,58 +15,8 @@ const dayMaker = myFunctions.dayMaker;
 const dateMaker = myFunctions.dateMaker;
 const extractTime = myFunctions.extractTime;
 const dayOrNight = myFunctions.dayOrNight;
-
-const weatherCodeTranslator = (dayOrNight, code) => {
-  // NEUTRAL
-  if (weatherCodes.storm.includes(code)) {
-    return icons.neutral.storm;
-  }
-  if (weatherCodes.mist.includes(code)) {
-    return icons.neutral.mist;
-  }
-  // DAY
-  if (dayOrNight === 'day' && weatherCodes.clear.includes(code)) {
-    return icons.day.clear;
-  }
-  if (dayOrNight === 'day' && weatherCodes.cloud.includes(code)) {
-    return icons.day.cloud;
-  }
-  if (dayOrNight === 'day' && weatherCodes.rain.includes(code)) {
-    return icons.day.rain;
-  }
-  if (dayOrNight === 'day' && weatherCodes.snow.includes(code)) {
-    return icons.day.snow;
-  }
-  // NIGHT
-  if (dayOrNight === 'night' && weatherCodes.clear.includes(code)) {
-    return icons.night.clear;
-  }
-  if (dayOrNight === 'night' && weatherCodes.cloud.includes(code)) {
-    return icons.night.cloud;
-  }
-  if (dayOrNight === 'night' && weatherCodes.rain.includes(code)) {
-    return icons.night.rain;
-  }
-  if (dayOrNight === 'night' && weatherCodes.snow.includes(code)) {
-    return icons.night.snow;
-  }
-  // NONE ABOVE = ERROR
-  return icons.err;
-};
-
-const animateElement = (className, animationName, iteration = 'infinity') => {
-  const targets = document.querySelectorAll(className);
-  targets.forEach((target) => target.classList.add(animationName));
-  if (iteration !== 'infinty') {
-    targets.forEach((target) =>
-      target.addEventListener('animationend', () => {
-        target.classList.remove(animationName);
-        target.classList.remove('outside');
-      })
-    );
-  }
-
-};
+const weatherTranslator = myFunctions.weatherTranslator;
+const animateElement = myFunctions.animateElement;
 
 // API WEATHER
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
@@ -93,7 +48,7 @@ function fillMainBody(cityData) {
   //  MAIN ICON
   let localTime = dayOrNight(extractTime(cityData.location.localtime));
   let weatherCode = cityData.current.condition.code;
-  let weatherIcon = weatherCodeTranslator(localTime, weatherCode);
+  let weatherIcon = weatherTranslator(localTime, weatherCode, keys, icons);
   const mainIcon = document.querySelector('.main-icon');
   mainIcon.style.backgroundImage = `url(${weatherIcon}`;
   // CITY
@@ -143,7 +98,7 @@ function fillEndBody(cityData) {
     day.textContent = weekDays[i].slice(0, 3);
     // ICON
     let weatherCode = dataArr[i].day.condition.code;
-    let weatherIcon = weatherCodeTranslator('day', weatherCode);
+    let weatherIcon = weatherTranslator('day', weatherCode, keys, icons);
     const icon = document.querySelector(`.end-icon-${i}`);
     icon.style.backgroundImage = `url(${weatherIcon})`;
     // WEATHER
@@ -172,7 +127,7 @@ async function fillSidebar(cityArray) {
     // ICON
     let localTime = dayOrNight(extractTime(data.location.localtime));
     let weatherCode = data.current.condition.code;
-    let weatherIcon = weatherCodeTranslator(localTime, weatherCode);
+    let weatherIcon = weatherTranslator(localTime, weatherCode, keys, icons);
     const sideIcon = document.querySelector(`.side-icon-${i}`);
     sideIcon.style.backgroundImage = `url(${weatherIcon})`;
     // TEMPERTATURE CELCIUS
@@ -185,9 +140,9 @@ async function fillSidebar(cityArray) {
     const sideTime = document.querySelector(`.side-time-${i}`);
     sideTime.textContent = dayMaker(data.location.localtime);
     // ANIMATION
-    animateElement(`.side-container-${i}`, 'slide-in', 'once')
+    animateElement(`.side-container-${i}`, 'slide-in', 'once');
   }
-  animateElement('.sidebar-end', 'slide-in', 'once')
+  animateElement('.sidebar-end', 'slide-in', 'once');
 }
 
 const firstLoad = async () => {

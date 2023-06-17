@@ -61,6 +61,57 @@ const myFunctions = (() => {
     return 'day';
   };
 
+  // TRANSLATE WEATHER CODE INTO DATA IMAGE
+  const weatherTranslator = (dayOrNight, code, keys, output) => {
+    // NEUTRAL
+    if (keys.storm.includes(code)) {
+      return output.neutral.storm;
+    }
+    if (keys.mist.includes(code)) {
+      return output.neutral.mist;
+    }
+    // DAY
+    if (dayOrNight === 'day' && keys.clear.includes(code)) {
+      return output.day.clear;
+    }
+    if (dayOrNight === 'day' && keys.cloud.includes(code)) {
+      return output.day.cloud;
+    }
+    if (dayOrNight === 'day' && keys.rain.includes(code)) {
+      return output.day.rain;
+    }
+    if (dayOrNight === 'day' && keys.snow.includes(code)) {
+      return output.day.snow;
+    }
+    // NIGHT
+    if (dayOrNight === 'night' && keys.clear.includes(code)) {
+      return output.night.clear;
+    }
+    if (dayOrNight === 'night' && keys.cloud.includes(code)) {
+      return output.night.cloud;
+    }
+    if (dayOrNight === 'night' && keys.rain.includes(code)) {
+      return output.night.rain;
+    }
+    if (dayOrNight === 'night' && keys.snow.includes(code)) {
+      return output.night.snow;
+    }
+    // NONE ABOVE = ERROR
+    return output.err;
+  };
+  // ADD ANIMATION TO ELEMENT
+  const animateElement = (className, animationName, iteration = 'infinity') => {
+    const targets = document.querySelectorAll(className);
+    targets.forEach((target) => target.classList.add(animationName));
+    if (iteration !== 'infinty') {
+      targets.forEach((target) =>
+        target.addEventListener('animationend', () => {
+          target.classList.remove(animationName);
+          target.classList.remove('outside');
+        })
+      );
+    }
+  };
   return {
     randomBetween,
     aWeekFromNow,
@@ -69,6 +120,8 @@ const myFunctions = (() => {
     dateMaker,
     extractTime,
     dayOrNight,
+    weatherTranslator,
+    animateElement
   };
 })();
 

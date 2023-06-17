@@ -1,5 +1,5 @@
 // SIMPLIFIED WEATHER CODES
-const weatherCodes = {
+const keys = {
   clear: [1000],
   cloud: [1003, 1006, 1009],
   rain: [
@@ -14,4 +14,4 @@ const weatherCodes = {
   mist: [1135, 1147, 1030],
 };
 
-export { weatherCodes };
+export { keys };
