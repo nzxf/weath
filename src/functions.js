@@ -108,14 +108,14 @@ const myFunctions = (() => {
     return output.err;
   };
   // ADD ANIMATION TO ELEMENT
-  const animateElement = (className, animationName, iteration = 'infinity') => {
+  const animateElement = (className, animationName, iteration, newClass) => {
     const targets = document.querySelectorAll(className);
     targets.forEach((target) => target.classList.add(animationName));
-    if (iteration !== 'infinty') {
+    if (iteration !== 'infinity') {
       targets.forEach((target) =>
         target.addEventListener('animationend', () => {
           target.classList.remove(animationName);
-          target.classList.remove('outside');
+          target.classList.add(newClass);
         })
       );
     }

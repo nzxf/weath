@@ -18,62 +18,71 @@ const dayOrNight = myFunctions.dayOrNight;
 const weatherTranslator = myFunctions.weatherTranslator;
 const animateElement = myFunctions.animateElement;
 
+const inOut = (className) => {
+  const fc = getEls(className);
+  fc.forEach((el) => el.classList.add('slide-out'));
+  fc.forEach((f) =>
+    f.addEventListener('animationend', () => {
+      f.classList.remove('slide-out');
+      f.classList.add('outside');
+      f.classList.add('slide-in');
+      f.addEventListener('animationend', () => {
+        f.classList.remove('outside');
+      });
+    })
+  );
+};
+
 // API WEATHER (NOT SECURE?)
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
 
-const selectEl = (className) => document.querySelector(`.${className}`);
-const selectEls = (...classNames) => {
-  let allElements = [];
-  for (const className of classNames) {
-    const newElements = document.querySelectorAll(`.${className}`);
-    newElements.forEach((newElement) => {
-      allElements.push(newElement);
-    });
-  }
-  return allElements;
-};
+const getEls = (...classNames) =>
+  document.querySelectorAll(classNames.join(', '));
+const getEl = (className) => document.querySelector(className);
 
-const lostCity = () => {
-  let input = 'New Lost Vegas';
+const lostCity = (userInput) => {
   // TEXT
-  selectEl('main-city').textContent = 'Sorry';
-  selectEl(
-    'main-country'
-  ).textContent = `We cannot find a place named ${input}`;
-  selectEl('main-weather').textContent = 'Bring this just to be safe';
-  // IMAGE
-  selectEl('main-icon').style.backgroundImage = `url(${icons.lost})`;
-  selectEls('sub-icon').forEach((el) => (el.style.backgroundImage = 'none'));
-  selectEls('end-icon').forEach((el)=> el.style.backgroundImage = `url(${icons.err})`)
+  getEl('.main-city').textContent = 'Sorry';
+  getEl(
+    '.main-country'
+  ).textContent = `We cannot find a place named ${userInput}`;
+  getEl('.main-weather').textContent = 'Bring this just to be safe';
+  // IMAGES
+  getEl('.main-icon').style.backgroundImage = `url(${icons.lost})`;
+  getEls('.sub-container').forEach((el) =>
+    el.classList.add('none')
+  );
+  getEls('.end-icon').forEach((el) =>
+    el.classList.add('hidden')
+  );
+  inOut('.day-container');
 };
 
 const clearBottomBar = () => {
   // ICON
-  selectEls('end-icon').forEach(
-    (el) => (el.style.backgroundImage = 'none')
-  );
+  getEls('.end-icon').forEach((el) => (el.style.backgroundImage = 'none'));
   // RESTS
-  selectEls('end-date', 'end-day', 'end-weather').forEach(
+  getEls('.end-date', '.end-day', '.end-weather').forEach(
     (el) => (el.textContent = '')
   );
 };
 const clearMainBody = () => {
   // ICON
-  selectEls('main-icon', 'sub-icon').forEach(
+  getEls('main-icon', 'sub-icon').forEach(
     (el) => (el.style.backgroundImage = 'none')
   );
   // RESTS
-  selectEls(
-    'main-city',
-    'main-country',
-    'main-date',
-    'main-time',
-    'main-weather',
-    'temp',
-    'humid',
-    'wind',
-    'uv',
-    'cloud'
+  getEls(
+    '.main-city',
+    '.main-country',
+    '.main-date',
+    '.main-time',
+    '.main-weather',
+    '.temp',
+    '.humid',
+    '.wind',
+    '.uv',
+    '.cloud'
   ).forEach((el) => (el.textContent = ''));
 };
 
@@ -89,8 +98,13 @@ const tellForecast = async (api, zipcode, days) => {
   const res = await fetch(
     `${url}forecast.json?key=${api}&q=${zipcode}&days=${days}`
   );
-  const data = await res.json();
-  return data;
+  // FOUND = PROCEED DATA
+  if (res.status === 200) {
+    const data = await res.json();
+    return data;
+  }
+  // NOT FOUND
+  return res.status;
 };
 const userFrom = async (api, key) => {
   const url = 'https://api.weatherapi.com/v1/';
@@ -183,33 +197,36 @@ async function fillSidebar(cityArray) {
     const sideTempC = document.querySelector(`.side-temp-c-${i}`);
     sideTempC.textContent = `${data.current.temp_c} °C`;
     // TEMPERTATURE FAHRENHEIT
-    const sideTempF = document.querySelector(`.side-temp-f-${i}`, 'hidden');
+    const sideTempF = document.querySelector(`.side-temp-f-${i}`, 'none');
     sideTempF.textContent = `${data.current.temp_f} °F`;
     // LOCAL TIME
     const sideTime = document.querySelector(`.side-time-${i}`);
     sideTime.textContent = dayMaker(data.location.localtime);
-    // ANIMATION
-    animateElement(`.side-container-${i}`, 'slide-in', 'once');
   }
-  animateElement('.sidebar-end', 'slide-in', 'once');
 }
 async function checkInput(userInput) {
-  if (!userInput) {
-    clearMainBody()
-    clearBottomBar()
-    return lostCity();
-  } else {
-    let cityData = await tellForecast(API_KEY_WEATHER, userInput, 8);
-    fillMainBody(cityData);
-    fillBottomBar(cityData);
-    // console.log(cityData);
+  let cityData = await tellForecast(API_KEY_WEATHER, userInput, 8);
+  // BAD REQUEST
+  if (cityData === 400) {
+    clearMainBody();
+    clearBottomBar();
+    return lostCity(userInput);
   }
+  // GOOD REQEUST
+
+  getEls('.sub-container').forEach((el) =>
+    el.classList.remove('none')
+  );
+  getEls('.end-icon').forEach((el) =>
+    el.classList.remove('hidden')
+  );
+
+  fillMainBody(cityData);
+  fillBottomBar(cityData);
 }
 const firstLoad = async () => {
   let userLoc = await userFrom(API_KEY_WEATHER, 'auto:ip');
   await checkInput(userLoc);
-  animateElement('.main-icon', 'levitate', 'infinity');
-  animateElement('.day-container', 'slide-in', 'once');
   fillSidebar(sideCities(worlds));
 };
 
@@ -217,9 +234,20 @@ const firstLoad = async () => {
 const form = document.querySelector('form');
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  await checkInput(document.querySelector('#search').value);
+  // VALIDATION
+  const search = getEl('#search');
+  if (search.value === '') {
+    search.placeholder = "Can't be empty";
+    search.style.color = 'yellow';
+    return setTimeout(() => {
+      search.placeholder = 'Enter a city';
+      search.style.color = 'inherit';
+    }, 2000);
+  }
+  // PROCEED
+  await checkInput(search.value);
   animateElement('.main-container', 'shake', 'once');
-  animateElement('.day-container', 'slide-in', 'once');
+  // animateElement('.day-container', 'slide-in', 'once');
 });
 
 // TEMPERATURE SCALE
@@ -232,13 +260,13 @@ tempButton.addEventListener('click', () => {
   }
   // TEMP VALUE (MAIN BODY)
   const temps = document.querySelectorAll('.temp');
-  temps.forEach((temp) => temp.classList.toggle('hidden'));
+  temps.forEach((temp) => temp.classList.toggle('none'));
   // TEMP ICON (MAIN BODY)
   const iconTemps = document.querySelectorAll('.temp-icon');
-  iconTemps.forEach((iconTemp) => iconTemp.classList.toggle('hidden'));
+  iconTemps.forEach((iconTemp) => iconTemp.classList.toggle('none'));
   // TEMP VALUES (SIDEBAR)
   const sideTemps = document.querySelectorAll('.side-temp');
-  sideTemps.forEach((sideTemp) => sideTemp.classList.toggle('hidden'));
+  sideTemps.forEach((sideTemp) => sideTemp.classList.toggle('none'));
 });
 // MEASUREMT SYSTEM
 const sysButton = document.querySelector('.sys-measure-button');
@@ -249,7 +277,7 @@ sysButton.addEventListener('click', () => {
   } else {
     sysButton.textContent = 'Metric';
   }
-  windMeasures.forEach((measure) => measure.classList.toggle('hidden'));
+  windMeasures.forEach((measure) => measure.classList.toggle('none'));
 });
 
-firstLoad();
+// firstLoad();

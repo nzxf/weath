@@ -171,7 +171,11 @@ body {
 }
 
 .hidden {
-  display: none;
+  visibility: hidden;
+}
+
+.none {
+  display: none
 }
 
 /* ALL ICONS  */
@@ -194,6 +198,4 @@ body {
 .cloud-icon {
   background-image: url(https://cdn-icons-png.flaticon.com/512/1146/1146877.png);
 }
-
-/* ERROR HANDLER */
 
