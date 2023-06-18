@@ -1,4 +1,36 @@
 const myFunctions = (() => {
+  //QUERY SELECTORS
+  const getEls = (...classNames) =>
+    document.querySelectorAll(classNames.join(', '));
+  const getEl = (className) => document.querySelector(className);
+  // API HANDLERS
+  const tellWeather = async (api, city) => {
+    const url = 'https://api.weatherapi.com/v1/';
+    const cors = { mode: 'cors' };
+    const res = await fetch(`${url}current.json?key=${api}&q=${city}`, cors);
+    const data = await res.json();
+    return data;
+  };
+  const tellForecast = async (api, zipcode, days) => {
+    const url = 'https://api.weatherapi.com/v1/';
+    const res = await fetch(
+      `${url}forecast.json?key=${api}&q=${zipcode}&days=${days}`
+    );
+    // FOUND = PROCEED DATA
+    if (res.status === 200) {
+      const data = await res.json();
+      return data;
+    }
+    // NOT FOUND
+    return res.status;
+  };
+  const tellUserLoc = async (api, key) => {
+    const url = 'https://api.weatherapi.com/v1/';
+    const cors = { mode: 'cors' };
+    const res = await fetch(`${url}current.json?key=${api}&q=${key}`, cors);
+    const data = await res.json();
+    return data.location.name;
+  };
   // RANDOM NUMBER BETWEEN TWO NUMBERS
   const randomBetween = (min, max) => {
     return Math.floor(Math.random() * (max + 1 - min) + min);
@@ -54,17 +86,16 @@ const myFunctions = (() => {
   // TRANSLATE RAWDATE INTO PRESENTABLE TIME
   const timeMaker = (dateString) => {
     let aTime = new Date(dateString);
-    const optionsTime = {hour: '2-digit', minute:'2-digit', hour12: false};
-    return aTime.toLocaleTimeString(undefined,optionsTime)
-  }
-// FIND OUT IF DAY OR NIGHT 
+    const optionsTime = { hour: '2-digit', minute: '2-digit', hour12: false };
+    return aTime.toLocaleTimeString(undefined, optionsTime);
+  };
+  // FIND OUT IF DAY OR NIGHT
   const dayOrNight = (timeString) => {
     if (parseInt(timeString) <= 6 || parseInt(timeString) >= 18) {
       return 'night';
     }
     return 'day';
   };
-
   // TRANSLATE WEATHER CODE INTO DATA IMAGE
   const weatherTranslator = (dayOrNight, code, keys, output) => {
     // NEUTRAL
@@ -120,7 +151,28 @@ const myFunctions = (() => {
       );
     }
   };
+  // ADD ANIMATION SLIDE IN & OUT
+  const inOut = (className) => {
+    const fc = getEls(className);
+    fc.forEach((el) => el.classList.add('slide-out'));
+    fc.forEach((f) =>
+      f.addEventListener('animationend', () => {
+        f.classList.remove('slide-out');
+        f.classList.add('outside');
+        f.classList.add('slide-in');
+        f.addEventListener('animationend', () => {
+          f.classList.remove('outside');
+        });
+      })
+    );
+  };
+
   return {
+    getEl,
+    getEls,
+    tellWeather,
+    tellForecast,
+    tellUserLoc,
     randomBetween,
     aWeekFromTomorrow,
     sideCities,
@@ -130,6 +182,7 @@ const myFunctions = (() => {
     dayOrNight,
     weatherTranslator,
     animateElement,
+    inOut,
   };
 })();
 
