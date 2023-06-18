@@ -26,7 +26,6 @@
   font-family: 'med';
   font-size: 1.1rem;
   color: #eeeeee;
-  /* border: solid pink; */
 }
 
 body {
@@ -35,7 +34,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: scroll;
 }
 
 #content {
@@ -45,8 +43,6 @@ body {
   grid-template-columns: 1fr minmax(50px, 320px);
   grid-template-rows: 40px 1fr auto;
   gap: 7.5px;
-  overflow: hidden;
-  overflow: scroll;
 }
 
 .topbar {
@@ -106,7 +102,7 @@ body {
 
 .main-icon {
   grid-column: 1/6;
-  height: 100%;
+  min-height: 175px;
   width: 100%;
   background-position: center;
   background-repeat: no-repeat;

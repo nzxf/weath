@@ -11,11 +11,11 @@ import { worlds } from './data/worlds';
 
 import { myFunctions } from './functions';
 
-const getEl = myFunctions.getEl
-const getEls = myFunctions.getEls
-const tellWeather = myFunctions.tellWeather
-const tellForecast = myFunctions.tellForecast
-const tellUserLoc = myFunctions.tellUserLoc
+const getEl = myFunctions.getEl;
+const getEls = myFunctions.getEls;
+const tellWeather = myFunctions.tellWeather;
+const tellForecast = myFunctions.tellForecast;
+const tellUserLoc = myFunctions.tellUserLoc;
 const aWeekFromTomorrow = myFunctions.aWeekFromTomorrow;
 const sideCities = myFunctions.sideCities;
 const dayMaker = myFunctions.dayMaker;
@@ -24,12 +24,13 @@ const timeMaker = myFunctions.timeMaker;
 const dayOrNight = myFunctions.dayOrNight;
 const weatherTranslator = myFunctions.weatherTranslator;
 const animateElement = myFunctions.animateElement;
-const inOut = myFunctions.inOut
+const inOut = myFunctions.inOut;
 
 // API WEATHER (NOT SECURE?)
 const API_KEY_WEATHER = 'e1d35972d5eb49b5b3b154449231006';
 
-const fillMainBody = (cityData)=> {
+// FILL DATA
+const fillMainBody = (cityData) => {
   //  MAIN ICON
   let localTime = dayOrNight(timeMaker(cityData.location.localtime));
   let weatherCode = cityData.current.condition.code;
@@ -70,7 +71,7 @@ const fillMainBody = (cityData)=> {
   // CLOUD
   const cloud = getEl('.cloud');
   cloud.textContent = `${cityData.current.cloud}%`;
-}
+};
 const fillBottomBar = (cityData) => {
   let dataArr = cityData.forecast.forecastday;
   dataArr.shift(); // FIRST DAY ALREADY SHOWN IN MAINBODY
@@ -91,8 +92,8 @@ const fillBottomBar = (cityData) => {
     const weather = getEl(`.end-weather-${i}`);
     weather.textContent = dataArr[i].day.condition.text;
   }
-}
-const fillSidebar = async (cityArray)=> {
+};
+const fillSidebar = async (cityArray) => {
   for (let i = 0; i < cityArray.length; i++) {
     const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
     // CITY
@@ -117,13 +118,14 @@ const fillSidebar = async (cityArray)=> {
     const sideTime = getEl(`.side-time-${i}`);
     sideTime.textContent = dayMaker(data.location.localtime);
   }
-}
+};
+// CLEAR DATA
 const clearMainBody = () => {
-  // ICON
+  // IMAGES
   getEls('main-icon', 'sub-icon').forEach(
     (el) => (el.style.backgroundImage = 'none')
   );
-  // RESTS
+  // TEXTS
   getEls(
     '.main-city',
     '.main-country',
@@ -145,6 +147,7 @@ const clearBottomBar = () => {
     (el) => (el.textContent = '')
   );
 };
+// DATA NOT FOUND
 const lostCity = (userInput) => {
   // TEXT
   getEl('.main-city').textContent = 'Sorry';
@@ -157,9 +160,13 @@ const lostCity = (userInput) => {
   getEls('.sub-container').forEach((el) => el.classList.add('none'));
   getEls('.end-icon').forEach((el) => el.classList.add('hidden'));
   inOut('.day-container');
+  // BOTTOM BAR
+  getEls('.end-date', '.end-day', '.end-weather').forEach(
+    (el) => (el.textContent = 'sorry')
+  );
 };
-
-const checkInput = async(userInput)=> {
+// FILTER INPUT
+const checkInput = async (userInput) => {
   let cityData = await tellForecast(API_KEY_WEATHER, userInput, 8);
   inOut('.day-container');
   // BAD REQUEST
@@ -174,7 +181,8 @@ const checkInput = async(userInput)=> {
 
   fillMainBody(cityData);
   fillBottomBar(cityData);
-}
+};
+// FIRST TIME LOAD 
 const firstLoad = async () => {
   let userLoc = await tellUserLoc(API_KEY_WEATHER, 'auto:ip');
   await checkInput(userLoc);
@@ -200,7 +208,9 @@ const handleForm = async (event) => {
   // PROCEED
   await checkInput(search.value);
   animateElement('.main-container', 'shake', 'once');
-}
+  // CLEAR SEARCH BAR
+  search.value = '';
+};
 const form = getEl('form');
 form.addEventListener('submit', handleForm);
 // TEMPERATURE SCALE
@@ -213,7 +223,7 @@ const handleTempButton = () => {
   // TEMPS (MAINBODY & SIDEBAR)
   const temps = getEls('.temp', '.temp-icon', '.side-temp');
   temps.forEach((temp) => temp.classList.toggle('none'));
-}
+};
 const tempButton = getEl('.temperature-button');
 tempButton.addEventListener('click', handleTempButton);
 // MEASUREMT SYSTEM
@@ -229,5 +239,4 @@ const handleSysButton = () => {
 const sysButton = getEl('.sys-measure-button');
 sysButton.addEventListener('click', handleSysButton);
 
-
-window.onload = firstLoad();
+firstLoad();

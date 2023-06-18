@@ -25,6 +25,9 @@
   .left-side {
     height: auto;
   }
+  .side-icon {
+    height: 30px;
+  }
   .weather-api {
     height: 60px;
     width: 80px;

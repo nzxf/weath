@@ -33,6 +33,7 @@ form > input {
   background-color: transparent;
   border: none;
   outline: none;
+  font-size: .9rem;
 }
 
 form > button {
