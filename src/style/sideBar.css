@@ -1,23 +1,37 @@
+.sidebar-top {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.sidebar-top > p {
+  height: 100%;
+  font-family: 'bold';
+  font-size: 1.1rem;
+}
+
 .sidebar {
-    display: grid;
-    grid-template-rows: repeat(auto-fit, auto);
-    gap: 5px;
-    overflow: hidden;
-  }
-  
-  .side-container {
-    display: grid;
-    grid-template-columns: 1fr 45px 90px;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
-    background-image: var(--blackish);
-    border-radius: 25px 25px 25px 25px;
-    color: white;
-    padding: 7.5px 15px;
-    column-gap: 7.5px;
-  }
-  
+  display: grid;
+  grid-template-rows: repeat(auto-fit, auto);
+  gap: 5px;
+  overflow: hidden;
+}
+
+.side-container {
+  display: grid;
+  grid-template-columns: 1fr 45px 90px;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  background-image: var(--blackish);
+  border-radius: 25px 25px 25px 25px;
+  color: white;
+  padding: 7.5px 15px;
+  column-gap: 7.5px;
+}
+
 .left-side,
 .right-side {
   height: 100%;
@@ -27,57 +41,57 @@
   align-items: center;
 }
 
-  .side-city {
-    font-family: 'bold';
-  }
-  
-  .side-country {
-    font-family: 'med';
-    font-size: 0.8rem;
-    color: var(--greyish)
-  }
-  
-  .side-icon {
-    grid-column: 2/3;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 40px;
-    width: 40px;
-  }
-  
-  .side-temp {
-    font-family: 'bold';
-  }
+.side-city {
+  font-family: 'bold';
+}
 
-  .side-time {
-      font-family: 'med';
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.6);
-  }
-  
-  /* ATTRIBUTES */
-    .sidebar-end {
-    grid-column: 2/2;
-    grid-row: 3/4;
-    background-image: var(--blackish);
-    border-radius: 20px;
-    padding: 10px;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    text-align: center;
-  }
-  
-  .att {
-    font-size: .9rem;
-  }
-  
-  .weather-api {
-    background-image: url(https://cdn.weatherapi.com/v4/images/weatherapi_logo.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 80px;
-    width: 100px;
-  }
+.side-country {
+  font-family: 'med';
+  font-size: 0.8rem;
+  color: var(--greyish);
+}
+
+.side-icon {
+  grid-column: 2/3;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 40px;
+  width: 40px;
+}
+
+.side-temp {
+  font-family: 'bold';
+}
+
+.side-time {
+  font-family: 'med';
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ATTRIBUTES */
+.sidebar-end {
+  grid-column: 2/2;
+  grid-row: 3/4;
+  background-image: var(--blackish);
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+}
+
+.att {
+  font-size: 0.9rem;
+}
+
+.weather-api {
+  background-image: url(https://cdn.weatherapi.com/v4/images/weatherapi_logo.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 80px;
+  width: 100px;
+}

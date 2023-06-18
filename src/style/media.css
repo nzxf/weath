@@ -4,6 +4,10 @@
     height: 98%;
     grid-template-columns: 1fr;
   }
+  .sidebar-top > p {
+    padding: 3px;
+    font-size: 0.8rem;
+  }
   .side-container {
     display: flex;
     flex-direction: column-reverse;
@@ -32,6 +36,7 @@
     grid-template-columns: 1fr;
     column-gap: 0;
   }
+  .sidebar-top,
   .sidebar,
   .sidebar-end {
     display: none;

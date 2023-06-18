@@ -280,4 +280,4 @@ sysButton.addEventListener('click', () => {
   windMeasures.forEach((measure) => measure.classList.toggle('none'));
 });
 
-// firstLoad();
+firstLoad();
