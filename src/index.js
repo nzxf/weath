@@ -53,7 +53,7 @@ const fillMainBody = (cityData) => {
   const mainWeather = getEl('.main-weather');
   mainWeather.textContent = cityData.current.condition.text;
   // // TEMPERATURES
-  const tempC = getEl('.temp-celcius');
+  const tempC = getEl('.temp-celsius');
   tempC.textContent = `${cityData.current.temp_c} °C`;
   const tempF = getEl('.temp-fahrenheit');
   tempF.textContent = `${cityData.current.temp_f} °F`;
@@ -108,7 +108,7 @@ const fillSidebar = async (cityArray) => {
     let weatherIcon = weatherTranslator(localTime, weatherCode, keys, icons);
     const sideIcon = getEl(`.side-icon-${i}`);
     sideIcon.style.backgroundImage = `url(${weatherIcon})`;
-    // TEMPERTATURE CELCIUS
+    // TEMPERATURE CELSIUS
     const sideTempC = getEl(`.side-temp-c-${i}`);
     sideTempC.textContent = `${data.current.temp_c} °C`;
     // TEMPERTATURE FAHRENHEIT
@@ -215,10 +215,10 @@ const form = getEl('form');
 form.addEventListener('submit', handleForm);
 // TEMPERATURE SCALE
 const handleTempButton = () => {
-  if (tempButton.textContent === 'Celcius') {
+  if (tempButton.textContent === 'Celsius') {
     tempButton.textContent = 'Fahrenheit';
   } else {
-    tempButton.textContent = 'Celcius';
+    tempButton.textContent = 'Celsius';
   }
   // TEMPS (MAINBODY & SIDEBAR)
   const temps = getEls('.temp', '.temp-icon', '.side-temp');
