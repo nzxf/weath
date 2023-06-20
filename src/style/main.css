@@ -180,6 +180,10 @@ body {
   display: none
 }
 
+#gone {
+  display: none;
+}
+
 /* ALL ICONS  */
 
 .temp-icon-c {

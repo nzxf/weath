@@ -76,7 +76,10 @@ const fillBottomBar = (cityData) => {
   let dataArr = cityData.forecast.forecastday;
   dataArr.shift(); // FIRST DAY ALREADY SHOWN IN MAINBODY
   let weekDays = aWeekFromTomorrow();
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < dataArr.length; i++) {
+    // IF TRIAL ENDED = ONLY SHOW 3 DAYS FORECAST
+    const dayContainer = getEl(`.day-container-${i}`);
+    dayContainer.removeAttribute('id');
     // DATE
     const date = getEl(`.end-date-${i}`);
     date.textContent = dataArr[i].date.slice(8, 10);
@@ -182,7 +185,7 @@ const checkInput = async (userInput) => {
   fillMainBody(cityData);
   fillBottomBar(cityData);
 };
-// FIRST TIME LOAD 
+// FIRST TIME LOAD
 const firstLoad = async () => {
   let userLoc = await tellUserLoc(API_KEY_WEATHER, 'auto:ip');
   await checkInput(userLoc);
