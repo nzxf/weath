@@ -12,7 +12,7 @@
 
 .sidebar-top > p {
   height: 100%;
-  font-family: 'bold';
+  font-weight: bold;
   font-size: 1.2rem;
 }
 
@@ -24,7 +24,7 @@
 
 .side-container {
   display: grid;
-  grid-template-columns: 1fr 45px 90px;
+  grid-template-columns: 1fr 60px 100px;
   justify-content: space-around;
   align-items: center;
   text-align: center;
@@ -47,11 +47,11 @@
 }
 
 .side-city {
-  font-family: 'bold';
+  font-weight: bold;
 }
 
 .side-country {
-  font-family: 'med';
+  font-weight: medium;
   font-size: 0.8rem;
   color: var(--greyish);
 }
@@ -66,11 +66,11 @@
 }
 
 .side-temp {
-  font-family: 'bold';
+  font-weight: bold;
 }
 
 .side-time {
-  font-family: 'med';
+  font-weight: medium;
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.6);
 }

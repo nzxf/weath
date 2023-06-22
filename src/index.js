@@ -253,12 +253,12 @@ let animation = true;
 const aniButton = getEl('.animation-button');
 aniButton.addEventListener('click', () => {
   const stat = getEl('.stat-animation');
-  if (stat.textContent === 'ON') {
-    stat.textContent = 'OFF';
+  if (stat.textContent === 'On') {
+    stat.textContent = 'Off';
     animation = false;
     getEl('.main-icon').classList.remove('levitate');
   } else {
-    stat.textContent = 'ON';
+    stat.textContent = 'On';
     animation = true;
     getEl('.main-icon').classList.add('levitate');
   }

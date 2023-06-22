@@ -1,15 +1,21 @@
-@font-face {
+/* @font-face {
   font-family: 'light';
   src: url(../fonts/Poppins-Light.ttf);
+  font-style: normal;
+  font-weight: light;
 }
 @font-face {
   font-family: 'med';
   src: url(../fonts/Poppins-Medium.ttf);
+  font-style: normal;
+  font-weight: medium;
 }
 @font-face {
   font-family: 'bold';
   src: url(../fonts/Poppins-Bold.ttf);
-}
+  font-style: normal;
+  font-weight: bold;
+} */
 
 :root {
   --blackish: linear-gradient(to bottom left, #757575, #212121);
@@ -23,7 +29,7 @@
   margin: 0;
   padding: 0;
   border: none;
-  font-family: 'med';
+  font-family: "Poppins", serif;
   font-size: 1.1rem;
   color: #eeeeee;
 }
@@ -42,7 +48,7 @@ body {
   height: 95%;
   display: grid;
   grid-template-columns: 1fr minmax(50px, 320px);
-  grid-template-rows: 55px 1fr auto;
+  grid-template-rows: auto 1fr auto;
   gap: 7.5px;
 }
 
@@ -90,7 +96,7 @@ body {
 .main-city,
 .main-date {
   height: 100%;
-  font-family: 'bold';
+  font-weight: bold;
   font-size: 1.5rem;
 }
 
@@ -103,7 +109,7 @@ body {
 
 .main-icon {
   grid-column: 1/6;
-  min-height: 175px;
+  min-height: 160px;
   width: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -112,7 +118,7 @@ body {
 .main-weather {
   grid-column: 1/6;
   text-align: center;
-  font-family: 'bold';
+  font-weight: bold;
   font-size: 1.5rem;
 }
 

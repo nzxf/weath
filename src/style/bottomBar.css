@@ -24,12 +24,14 @@
   }
   
   .end-date {
-    font-family: 'med';
+    font-family: "Poppins", serif;
+    font-weight: medium;
     font-size: 0.9rem;
   }
   
   .end-day {
-    font-family: 'bold';
+    font-family: "Poppins", serif;
+    font-weight: bold;
     font-size: 0.9rem;
   }
   
