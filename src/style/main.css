@@ -15,7 +15,7 @@
   --blackish: linear-gradient(to bottom left, #757575, #212121);
   --blackish2: linear-gradient(to left, #4b4b4b, #3f3f3f);
   --blackish3: linear-gradient(to bottom left, #4e4e4e, #212121);
-  --greyish: rgba(255, 255, 255, 0.6);;
+  --greyish: rgba(255, 255, 255, 0.6);
 }
 
 * {
@@ -34,6 +34,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgb(170, 170, 170);
 }
 
 #content {
@@ -41,7 +42,7 @@ body {
   height: 95%;
   display: grid;
   grid-template-columns: 1fr minmax(50px, 320px);
-  grid-template-rows: 40px 1fr auto;
+  grid-template-rows: 55px 1fr auto;
   gap: 7.5px;
 }
 
@@ -156,7 +157,6 @@ body {
   text-align: center;
 }
 
-
 .sub-container {
   display: flex;
   flex-direction: column;
@@ -177,7 +177,7 @@ body {
 }
 
 .none {
-  display: none
+  display: none;
 }
 
 #gone {
@@ -204,4 +204,3 @@ body {
 .cloud-icon {
   background-image: url(https://cdn-icons-png.flaticon.com/512/1146/1146877.png);
 }
-

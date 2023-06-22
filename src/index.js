@@ -99,6 +99,9 @@ const fillBottomBar = (cityData) => {
 const fillSidebar = async (cityArray) => {
   for (let i = 0; i < cityArray.length; i++) {
     const data = await tellWeather(API_KEY_WEATHER, cityArray[i]);
+    // CONTAINER
+    const container = getEl(`.side-container-${i}`);
+    container.dataset.city = data.location.name;
     // CITY
     const sideCity = getEl(`.side-city-${i}`);
     sideCity.textContent = data.location.name;
@@ -162,7 +165,6 @@ const lostCity = (userInput) => {
   getEl('.main-icon').style.backgroundImage = `url(${icons.lost})`;
   getEls('.sub-container').forEach((el) => el.classList.add('none'));
   getEls('.end-icon').forEach((el) => el.classList.add('hidden'));
-  inOut('.day-container');
   // BOTTOM BAR
   getEls('.end-date', '.end-day', '.end-weather').forEach(
     (el) => (el.textContent = 'sorry')
@@ -171,7 +173,11 @@ const lostCity = (userInput) => {
 // FILTER INPUT
 const checkInput = async (userInput) => {
   let cityData = await tellForecast(API_KEY_WEATHER, userInput, 8);
-  inOut('.day-container');
+  //ANIMATION
+  if (animation === true) {
+    inOut('.day-container');
+    animateElement('.main-container', 'shake', 'once');
+  }
   // BAD REQUEST
   if (cityData === 400) {
     clearMainBody();
@@ -193,7 +199,7 @@ const firstLoad = async () => {
 };
 
 // ALL EVENTS
-// SEARCH INPUT
+// SEARCH BAR
 const handleForm = async (event) => {
   event.preventDefault();
   // VALIDATION
@@ -201,7 +207,7 @@ const handleForm = async (event) => {
   if (search.value === '') {
     // NOTICE
     search.placeholder = "Can't be empty";
-    search.style.color = 'yellow';
+    search.style.color = 'red';
     return setTimeout(() => {
       // BACK DEFAULT
       search.placeholder = 'Enter a city';
@@ -210,18 +216,18 @@ const handleForm = async (event) => {
   }
   // PROCEED
   await checkInput(search.value);
-  animateElement('.main-container', 'shake', 'once');
   // CLEAR SEARCH BAR
   search.value = '';
 };
 const form = getEl('form');
 form.addEventListener('submit', handleForm);
-// TEMPERATURE SCALE
+// TEMPERATURE SCALE (CELCIUS/FAHRENHEIT)
 const handleTempButton = () => {
-  if (tempButton.textContent === 'Celsius') {
-    tempButton.textContent = 'Fahrenheit';
+  const stat = getEl('.stat-temperature');
+  if (stat.textContent === 'Celsius') {
+    stat.textContent = 'Fahrenheit';
   } else {
-    tempButton.textContent = 'Celsius';
+    stat.textContent = 'Celsius';
   }
   // TEMPS (MAINBODY & SIDEBAR)
   const temps = getEls('.temp', '.temp-icon', '.side-temp');
@@ -229,17 +235,40 @@ const handleTempButton = () => {
 };
 const tempButton = getEl('.temperature-button');
 tempButton.addEventListener('click', handleTempButton);
-// MEASUREMT SYSTEM
+// MEASUREMT SYSTEM (METRIC/IMPERIAL)
 const handleSysButton = () => {
-  if (sysButton.textContent === 'Metric') {
-    sysButton.textContent = 'Imperial';
+  const stat = getEl('.stat-system');
+  if (stat.textContent === 'Metric') {
+    stat.textContent = 'Imperial';
   } else {
-    sysButton.textContent = 'Metric';
+    stat.textContent = 'Metric';
   }
   const winds = getEls('.wind');
   winds.forEach((wind) => wind.classList.toggle('none'));
 };
 const sysButton = getEl('.sys-measure-button');
 sysButton.addEventListener('click', handleSysButton);
+// ANIMATION (ON/OFF)
+let animation = true;
+const aniButton = getEl('.animation-button');
+aniButton.addEventListener('click', () => {
+  const stat = getEl('.stat-animation');
+  if (stat.textContent === 'ON') {
+    stat.textContent = 'OFF';
+    animation = false;
+    getEl('.main-icon').classList.remove('levitate');
+  } else {
+    stat.textContent = 'ON';
+    animation = true;
+    getEl('.main-icon').classList.add('levitate');
+  }
+});
+// SHOW DETAIL FOR CITIES IN SIDEBAR
+const sideContainers = getEls('.side-container');
+sideContainers.forEach((container) =>
+  container.addEventListener('click', () => {
+    checkInput(container.dataset.city);
+  })
+);
 
 firstLoad();

@@ -6,13 +6,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 7.5px;
+  gap: 7.5px;
+  padding: 12.5px;
 }
 
 .sidebar-top > p {
   height: 100%;
   font-family: 'bold';
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 .sidebar {
@@ -32,6 +33,8 @@
   color: white;
   padding: 7.5px 15px;
   column-gap: 7.5px;
+
+  cursor: pointer;
 }
 
 .left-side,

@@ -4,9 +4,12 @@
     height: 98%;
     grid-template-columns: 1fr;
   }
+  .sidebar-top {
+    flex-direction: column;
+    gap: 0;
+  }
   .sidebar-top > p {
-    padding: 3px;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
   .side-container {
     display: flex;
