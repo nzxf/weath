@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weath: A Weather Forecast App</title>
     <link rel="shortcut icon" href="#" type="image/x-icon" />
+    <script src="bundle.js" defer></script>
   </head>
   <body>
     <div id="content">
@@ -15,9 +16,19 @@
           <input id="search" type="search" placeholder="Enter a city" />
           <button class="search-button" type="submit">🔍</button>
         </form>
-        <div class="button-container">
-          <button class="sys-measure-button pref-button">Metric</button>
-          <button class="temperature-button pref-button">Celcius</button>
+        <div class="preference-container">
+          <button class="sys-measure-button pref-button">
+            System
+            <p class="stat-system">Metric</p>
+          </button>
+          <button class="temperature-button pref-button">
+            Temperature
+            <p class="stat-temperature">Celsius</p>
+          </button>
+          <button class="animation-button pref-button">
+            Animation
+            <p class="stat-animation">ON</p>
+          </button>
         </div>
       </div>
       <div class="main-body">
@@ -88,22 +99,25 @@
           <div class="end-date-4 end-date"></div>
           <div class="end-day-4 end-day"></div>
           <div class="end-icon-4 end-icon"></div>
-          <div class="end-weather-4 end-weather"> </div>
+          <div class="end-weather-4 end-weather"></div>
         </div>
         <div id="gone" class="day-container-5 day-container">
           <div class="end-date-5 end-date"></div>
           <div class="end-day-5 end-day"></div>
           <div class="end-icon-5 end-icon"></div>
-          <div class="end-weather-5 end-weather"> </div>
+          <div class="end-weather-5 end-weather"></div>
         </div>
         <div id="gone" class="day-container-6 day-container">
           <div class="end-date-6 end-date"></div>
           <div class="end-day-6 end-day"></div>
           <div class="end-icon-6 end-icon"></div>
-          <div class="end-weather-6 end-weather"> </div>
+          <div class="end-weather-6 end-weather"></div>
         </div>
       </div>
-      <div class="sidebar-top"><p>World Weather</p></div>
+      <div class="sidebar-top">
+        <p>World</p>
+        <p>Weather</p>
+      </div>
       <div class="sidebar">
         <div class="side-container side-container-0">
           <div class="left-side">
@@ -187,7 +201,5 @@
         </div>
       </div>
     </div>
-
-    <script src="bundle.js"></script>
   </body>
 </html>
