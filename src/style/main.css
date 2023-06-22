@@ -40,7 +40,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(170, 170, 170);
+  background-color: darkgray;
 }
 
 #content {
