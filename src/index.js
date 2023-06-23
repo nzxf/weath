@@ -62,9 +62,9 @@ const fillMainBody = (cityData) => {
   humid.textContent = `${cityData.current.humidity}%`;
   // // WIND
   const windMet = getEl('.wind-metric');
-  windMet.textContent = `${cityData.current.wind_mph} mph`;
+  windMet.textContent = `${cityData.current.wind_kph} kph`;
   const windImp = getEl('.wind-imperial');
-  windImp.textContent = `${cityData.current.wind_kph} kph`;
+  windImp.textContent = `${cityData.current.wind_mph} mph`;
   // UV
   const uv = getEl('.uv');
   uv.textContent = `${cityData.current.uv}.0`;
