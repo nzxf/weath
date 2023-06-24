@@ -42,6 +42,9 @@
     grid-template-columns: 1fr;
     column-gap: 0;
   }
+  form > input {
+    font-size: 0.7rem;
+  }
   .preference-container {
     grid-template-columns: 50px 70px 60px;
   }
