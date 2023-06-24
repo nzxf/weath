@@ -42,6 +42,13 @@
     grid-template-columns: 1fr;
     column-gap: 0;
   }
+  .preference-container {
+    grid-template-columns: 50px 70px 60px;
+  }
+  .pref-button,
+  .pref-button > p {
+    font-size: 0.65rem;
+  }
   .sidebar-top,
   .sidebar,
   .sidebar-end {
