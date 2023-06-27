@@ -36,7 +36,7 @@ const myFunctions = (() => {
     return Math.floor(Math.random() * (max + 1 - min) + min);
   };
   // GET A WEEK START FROM TOMORROW
-  const aWeekFromTomorrow = () => {
+  const aWeekFromToday = () => {
     let result = [];
     let daysOfWeek = [
       'Sunday',
@@ -48,7 +48,7 @@ const myFunctions = (() => {
       'Saturday',
     ];
     let theDay = daysOfWeek[new Date().getDay()];
-    let index = daysOfWeek.indexOf(theDay) + 1;
+    let index = daysOfWeek.indexOf(theDay);
     for (let i = index; i < daysOfWeek.length; i++) {
       result.push(daysOfWeek[i]);
     }
@@ -174,7 +174,7 @@ const myFunctions = (() => {
     tellForecast,
     tellUserLoc,
     randomBetween,
-    aWeekFromTomorrow,
+    aWeekFromToday,
     sideCities,
     dayMaker,
     dateMaker,

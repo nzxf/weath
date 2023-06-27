@@ -16,7 +16,7 @@ const getEls = myFunctions.getEls;
 const tellWeather = myFunctions.tellWeather;
 const tellForecast = myFunctions.tellForecast;
 const tellUserLoc = myFunctions.tellUserLoc;
-const aWeekFromTomorrow = myFunctions.aWeekFromTomorrow;
+const aWeekFromToday = myFunctions.aWeekFromToday;
 const sideCities = myFunctions.sideCities;
 const dayMaker = myFunctions.dayMaker;
 const dateMaker = myFunctions.dateMaker;
@@ -74,8 +74,7 @@ const fillMainBody = (cityData) => {
 };
 const fillBottomBar = (cityData) => {
   let dataArr = cityData.forecast.forecastday;
-  dataArr.shift(); // FIRST DAY ALREADY SHOWN IN MAINBODY
-  let weekDays = aWeekFromTomorrow();
+  let weekDays = aWeekFromToday();
   for (let i = 0; i < dataArr.length; i++) {
     // IF TRIAL ENDED = ONLY SHOW 3 DAYS FORECAST
     const dayContainer = getEl(`.day-container-${i}`);
@@ -172,7 +171,7 @@ const lostCity = (userInput) => {
 };
 // FILTER INPUT
 const checkInput = async (userInput) => {
-  let cityData = await tellForecast(API_KEY_WEATHER, userInput, 8);
+  let cityData = await tellForecast(API_KEY_WEATHER, userInput, 7);
   //ANIMATION
   if (animation === true) {
     inOut('.day-container');
