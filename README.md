@@ -5,8 +5,12 @@ WEATH is an easy-to-use weather application that provides users with up-to-date 
 In addition to providing real-time data for your area, WEATH also features an interactive map that lets you explore global weather patterns from around the world. You can even select different continents to get reports on random cities!
 With its sleek and intuitive design, WEATH makes it easy for anyone to stay informed about changing weather conditions. Whether you're planning a trip or just trying to decide what clothes to wear today - WEATH has got you covered!
 
-# LINK
-Live: https://nzxf.github.io/weath/
+# HOW TO
+Try it out here: 
+[WEATH](https://nzxf.github.io/weath/)
+or here:
+[WEATHEUP](https://weathup.netlify.app/)
+
 
 ## FEATURES
 - **Auto detect your location and give weather report**: WEATH uses the browser's geolocation feature to automatically detect the user's current location. Once detected, it provides a detailed weather report for that specific area.
