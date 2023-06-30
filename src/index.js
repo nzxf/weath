@@ -262,10 +262,13 @@ aniButton.addEventListener('click', () => {
     getEl('.main-icon').classList.add('levitate');
   }
 });
+
 // SHOW DETAIL FOR CITIES IN SIDEBAR
 const sideContainers = getEls('.side-container');
 sideContainers.forEach((container) =>
   container.addEventListener('click', () => {
+    // AUTO SCROLL BACK TO THE TOP
+    content.scrollTo({ top: 0, behavior: 'smooth' })
     checkInput(container.dataset.city);
   })
 );
